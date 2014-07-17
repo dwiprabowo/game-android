@@ -53,15 +53,15 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 		this.mMenuMainTextureRegion = 
 				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 0);
 		this.mMenuBelajarTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 50);
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_belajar.png", 0, 50);
 		this.mMenuSkorTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 100);
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_skor.png", 0, 100);
 		this.mMenuSettingTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 150);
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_setting.png", 0, 150);
 		this.mMenuAboutTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 200);
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_about.png", 0, 200);
 		this.mMenuKeluarTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 250);
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_keluar.png", 0, 250);
 		this.mMenuTexture.load();
 	}
 
@@ -113,7 +113,7 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 			float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch(pMenuItem.getID()) {
 			case MENU_MAIN:
-				this.startActivity(new Intent(this, MainActivity.class));
+				this.startActivity(new Intent(this, ChooseLevelActivity.class));
 				return true;
 			case MENU_BELAJAR:
 				System.out.println("belajar...");
@@ -128,7 +128,7 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 				System.out.println("about...");
 				return true;
 			case MENU_KELUAR:
-				System.out.println("keluar...");
+				this.finish();
 				return true;
 			default:
 				return false;
