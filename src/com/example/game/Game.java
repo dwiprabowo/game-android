@@ -10,7 +10,11 @@ import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -18,6 +22,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.opengl.GLES20;
 
 public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuItemClickListener{
@@ -26,12 +31,16 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 	protected Scene mMainScene;
 	protected MenuScene mMenuScene;
 	private BitmapTextureAtlas mMenuTexture;
-	protected ITextureRegion mMenuMainTextureRegion;
-	protected ITextureRegion mMenuBelajarTextureRegion;
-	protected ITextureRegion mMenuSkorTextureRegion;
-	protected ITextureRegion mMenuSettingTextureRegion;
-	protected ITextureRegion mMenuAboutTextureRegion;
-	protected ITextureRegion mMenuKeluarTextureRegion;
+	private Font mMenuFont;
+	
+	final static int MENU_MAIN_COUNT = 6;
+	
+	protected ITextureRegion[] mMenuMainTextureRegion = new ITextureRegion[MENU_MAIN_COUNT];
+//	protected ITextureRegion mMenuBelajarTextureRegion;
+//	protected ITextureRegion mMenuSkorTextureRegion;
+//	protected ITextureRegion mMenuSettingTextureRegion;
+//	protected ITextureRegion mMenuAboutTextureRegion;
+//	protected ITextureRegion mMenuKeluarTextureRegion;
 	
 	protected static final int MENU_MAIN = 0;
 	protected static final int MENU_BELAJAR = MENU_MAIN + 1;
@@ -50,24 +59,22 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 	protected void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
 		this.mMenuTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 512, TextureOptions.BILINEAR);
-		this.mMenuMainTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main.png", 0, 0);
-		this.mMenuBelajarTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_belajar.png", 0, 50);
-		this.mMenuSkorTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_skor.png", 0, 100);
-		this.mMenuSettingTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_setting.png", 0, 150);
-		this.mMenuAboutTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_about.png", 0, 200);
-		this.mMenuKeluarTextureRegion = 
-				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_keluar.png", 0, 250);
+		int texturePos = 0;
+		for(int i = 0;i < MENU_MAIN_COUNT;i++){
+			this.mMenuMainTextureRegion[i] = 
+				BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_main_frame.png", 0, texturePos);
+			texturePos+=50;
+		}
 		this.mMenuTexture.load();
+		
+		final ITexture menuFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		FontFactory.setAssetBasePath("font/");
+		this.mMenuFont = FontFactory.createFromAsset(this.getFontManager(), menuFontTexture, this.getAssets(), "Forque.ttf", 24, true, Color.BLACK);
+		this.mMenuFont.load();
 	}
 
 	@Override
 	protected Scene onCreateScene() {
-		SplashActivity.getInstance().finish();
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		this.createMenuScene();
 		this.mMainScene = new Scene();
@@ -78,34 +85,25 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 	
 	protected void createMenuScene(){
 		this.mMenuScene = new MenuScene(this.mCamera);
-		final SpriteMenuItem mainMenuItem = 
-				new SpriteMenuItem(MENU_MAIN, this.mMenuMainTextureRegion, this.getVertexBufferObjectManager());
-		mainMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(mainMenuItem);
-		final SpriteMenuItem belajarMenuItem = 
-				new SpriteMenuItem(MENU_BELAJAR, this.mMenuBelajarTextureRegion, this.getVertexBufferObjectManager());
-		belajarMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(belajarMenuItem);
-		final SpriteMenuItem skorMenuItem = 
-				new SpriteMenuItem(MENU_SKOR, this.mMenuSkorTextureRegion, this.getVertexBufferObjectManager());
-		skorMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(skorMenuItem);
-		final SpriteMenuItem settingMenuItem = 
-				new SpriteMenuItem(MENU_SETTING, this.mMenuSettingTextureRegion, this.getVertexBufferObjectManager());
-		settingMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(settingMenuItem);
-		final SpriteMenuItem aboutMenuItem = 
-				new SpriteMenuItem(MENU_ABOUT, this.mMenuAboutTextureRegion, this.getVertexBufferObjectManager());
-		aboutMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(aboutMenuItem);
-		final SpriteMenuItem keluarMenuItem = 
-				new SpriteMenuItem(MENU_KELUAR, this.mMenuKeluarTextureRegion, this.getVertexBufferObjectManager());
-		aboutMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		this.mMenuScene.addMenuItem(keluarMenuItem);
+		final SpriteMenuItem[] mainMenuItems = new SpriteMenuItem[MENU_MAIN_COUNT];
+		for(int i = 0;i < MENU_MAIN_COUNT;i++){
+			mainMenuItems[i] = new SpriteMenuItem(i, this.mMenuMainTextureRegion[i], this.getVertexBufferObjectManager());
+			mainMenuItems[i].setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+			this.mMenuScene.addMenuItem(mainMenuItems[i]);
+		}
 		
 		this.mMenuScene.buildAnimations();
 		this.mMenuScene.setBackgroundEnabled(false);
 		this.mMenuScene.setOnMenuItemClickListener(this);
+		
+		final String[] menu_string = {"Main", "Belajar", "Skor Tertinggi", "Setting", "About", "Keluar"};
+		
+		for(int i = 0;i < MENU_MAIN_COUNT;i++){
+			final Text menu_text = new Text(0, 0, mMenuFont, menu_string[i], this.getVertexBufferObjectManager());
+			mainMenuItems[i].attachChild(menu_text);
+			menu_text.setX(mainMenuItems[i].getWidth()/2 - menu_text.getWidth()/2);
+			menu_text.setY(mainMenuItems[i].getHeight()/2 - menu_text.getHeight()/2);
+		}
 	}
 
 	@Override
@@ -113,7 +111,8 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 			float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch(pMenuItem.getID()) {
 			case MENU_MAIN:
-				this.startActivity(new Intent(this, ChooseLevelActivity.class));
+				startActivity(new Intent(this, ChooseLevelActivity.class));
+				finish();
 				return true;
 			case MENU_BELAJAR:
 				System.out.println("belajar...");
@@ -128,7 +127,7 @@ public class Game extends SimpleBaseGameActivity implements Constants, IOnMenuIt
 				System.out.println("about...");
 				return true;
 			case MENU_KELUAR:
-				this.finish();
+				finish();
 				return true;
 			default:
 				return false;
