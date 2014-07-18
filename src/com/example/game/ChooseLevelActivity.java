@@ -28,7 +28,6 @@ import org.andengine.util.debug.Debug;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.widget.Toast;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -38,15 +37,6 @@ import android.widget.Toast;
  * @since 11:54:51 - 03.04.2010
  */
 public class ChooseLevelActivity extends SimpleBaseGameActivity implements Constants, OnClickListener {
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	private static final int FONT_SIZE = 24;
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
 
 	private Font mFont;
 	private Font mTextFont;
@@ -82,7 +72,7 @@ public class ChooseLevelActivity extends SimpleBaseGameActivity implements Const
 		final ITexture buttonFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Forque.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Forque.ttf", 30, true, Color.BLACK);
 		this.mFont.load();
 		this.mTextFont = FontFactory.createFromAsset(this.getFontManager(), textFontTexture, this.getAssets(), "OpenSans-Regular.ttf", 18, true, Color.WHITE);
 		this.mTextFont.load();
@@ -149,10 +139,10 @@ public class ChooseLevelActivity extends SimpleBaseGameActivity implements Const
 	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 			float pTouchAreaLocalY) {
 		runOnUiThread(new Runnable() {
-			
 			@Override
 			public void run() {
-				Toast.makeText(ChooseLevelActivity.this, "Clicked", Toast.LENGTH_LONG).show();
+				ChooseLevelActivity.this.startActivity(new Intent(ChooseLevelActivity.this, MainActivity.class));
+				ChooseLevelActivity.this.finish();
 			}
 		});
 	}

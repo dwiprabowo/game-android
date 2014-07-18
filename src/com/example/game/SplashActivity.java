@@ -59,7 +59,7 @@ public class SplashActivity extends SimpleBaseGameActivity implements Constants{
 		
 		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 		FontFactory.setAssetBasePath("font/");
-		this.mTitleFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "GARUDA.ttf", 16, true, Color.BLACK);
+		this.mTitleFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Forque.ttf", 28, true, Color.BLACK);
 		this.mTitleFont.load();
 	}
 
@@ -73,7 +73,7 @@ public class SplashActivity extends SimpleBaseGameActivity implements Constants{
 		mMainScene.attachChild(face);
 		mMainScene.attachChild(title);
 		
-		title.setX(CAMERA_WIDTH/2 - title.getWidth()/2);title.setY(40);
+		title.setX(CAMERA_WIDTH/2 - title.getWidth()/2);title.setY(100);
 		
 		mMainScene.registerUpdateHandler(new TimerHandler(5.0f, new ITimerCallback() {
 			
