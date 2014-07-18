@@ -46,18 +46,6 @@ public class ChooseLevelActivity extends SimpleBaseGameActivity implements Const
 	private ITextureRegion mLevelTextureRegion;
 	private BuildableBitmapTextureAtlas mBitmapTextureAtlas;
 
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	// ===========================================================
-	// Methods for/from SuperClass/Interfaces
-	// ===========================================================
-
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
