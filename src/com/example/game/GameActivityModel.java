@@ -26,6 +26,8 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
@@ -177,5 +179,10 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		menuScene.setBackgroundEnabled(false);
 		menuScene.setOnMenuItemClickListener(pOnMenuItemClickListener);
 		return menuScene;
+	}
+	
+	public void startAndFinish(Class<?> cls){
+		startActivity(new Intent(this, cls));
+		finish();
 	}
 }

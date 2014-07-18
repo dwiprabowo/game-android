@@ -5,7 +5,6 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import android.content.Intent;
 
 public class SplashActivity extends GameActivityModel{
 	
@@ -28,8 +27,7 @@ public class SplashActivity extends GameActivityModel{
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				SplashActivity.this.getScene().unregisterUpdateHandler(pTimerHandler);
-				SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainMenuActivity.class));
-				SplashActivity.this.finish();
+				SplashActivity.this.startAndFinish(MainMenuActivity.class);
 			}
 		}));
 	}

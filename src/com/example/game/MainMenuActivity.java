@@ -4,7 +4,9 @@ import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import android.content.Intent;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 public class MainMenuActivity extends GameActivityModel implements Constants, IOnMenuItemClickListener{
 	
@@ -36,30 +38,45 @@ public class MainMenuActivity extends GameActivityModel implements Constants, IO
 			false, true, true
 		);
 	}
-	
 
 	@Override
 	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
 			float pMenuItemLocalX, float pMenuItemLocalY) {
 		switch(pMenuItem.getID()) {
 			case MENU_MAIN:
-				startActivity(new Intent(this, ChooseLevelActivity.class));
-				finish();
+				startAndFinish(ChooseLevelActivity.class);
 				return true;
 			case MENU_BELAJAR:
-				System.out.println("belajar...");
+				Utils.log("belajar...");
 				return true;
 			case MENU_SKOR:
-				System.out.println("skor...");
+				Utils.log("skor...");
 				return true;
 			case MENU_SETTING:
-				System.out.println("setting...");
+				Utils.log("setting...");
 				return true;
 			case MENU_ABOUT:
-				System.out.println("about...");
+				Utils.log("about...");
 				return true;
 			case MENU_KELUAR:
-				finish();
+				final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage("Anda Yakin Keluar?").setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						MainMenuActivity.this.finish();
+					}
+				}).setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				});
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						AlertDialog dialog = builder.create();
+						dialog.show();
+					}
+				});
 				return true;
 			default:
 				return false;
