@@ -23,6 +23,7 @@
         <activity android:name=".Game" android:configChanges="orientation"></activity>
         <activity android:name=".ChooseLevelActivity" android:configChanges="orientation"></activity>
         <activity android:name=".MainActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".EndMainActivity" android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

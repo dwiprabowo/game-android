@@ -52,10 +52,10 @@ public class MainActivity extends SimpleBaseGameActivity implements Constants{
 					}, 3),
 			new Question("Apakah nama Ibukota\nProvinsi Banten?", 
 					new String[]{
-					"Magelang", 
-					"Solo", 
-					"Yogya", 
-					"Denpasar"
+					"Jakarta", 
+					"Bandung", 
+					"Bogor", 
+					"Banten"
 					}, 3),
 			new Question("Apakah nama Ibukota\nProvinsi Jawa Timur?", 
 					new String[]{
@@ -198,6 +198,10 @@ public class MainActivity extends SimpleBaseGameActivity implements Constants{
 					if(pSceneTouchEvent.isActionUp() && question_number < max_update){
 						update_question(question_number, question, question_frame, soal_number, options, options_frame);
 						question_number++;
+					}
+					if(question_number == max_update){
+						startActivity(new Intent(MainActivity.this, EndMainActivity.class));
+						finish();
 					}
 					return super
 							.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
