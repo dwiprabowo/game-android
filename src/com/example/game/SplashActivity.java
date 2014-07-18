@@ -13,7 +13,7 @@ public class SplashActivity extends GameActivityModel{
 
 	@Override
 	protected void init_resources() {
-		textureRegion = load_texture_region(textureRegion, "gfx/splash_screen.png");
+		textureRegion = texture_region("gfx/splash_screen.png");
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class SplashActivity extends GameActivityModel{
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				SplashActivity.this.getScene().unregisterUpdateHandler(pTimerHandler);
-				SplashActivity.this.startActivity(new Intent(SplashActivity.this, Game.class));
+				SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainMenuActivity.class));
 				SplashActivity.this.finish();
 			}
 		}));

@@ -131,7 +131,7 @@ public class EndMainActivity extends SimpleBaseGameActivity implements Constants
 				startActivity(new Intent(this, ChooseLevelActivity.class));
 			break;
 		case 2:
-				startActivity(new Intent(this, Game.class));
+				startActivity(new Intent(this, MainMenuActivity.class));
 			break;
 		default:
 			break;

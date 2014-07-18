@@ -8,7 +8,12 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.scene.menu.MenuScene;
+import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.andengine.entity.scene.menu.animator.AlphaMenuAnimator;
+import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
@@ -22,6 +27,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 import android.graphics.Color;
+import android.opengl.GLES20;
 
 public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants{
 	
@@ -53,6 +59,10 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	protected abstract void init_resources();
 	protected abstract void init_scene();
 	
+	public Camera getCamera(){
+		return camera;
+	}
+	
 	public Scene getScene() {
 		return scene;
 	}
@@ -68,8 +78,9 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		this.font_title.load();
 	}
 	
-	public ITextureRegion load_texture_region(ITextureRegion textureRegion, final String path){
+	public ITextureRegion texture_region(final String path){
 		ITexture texture;
+		ITextureRegion textureRegion = null;
 		try {
 			texture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 				@Override
@@ -98,6 +109,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 			scene.attachChild(child);
 			align(child, align);
 		} else {
+			parent.attachChild(child);
 			align(child, parent, align);
 		}
 	}
@@ -148,5 +160,22 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public void set_position(RectangularShape object, float x, float y){
 		object.setPosition(object.getX() + x, object.getY() + y);
+	}
+	
+	public MenuScene build_menu_scene(ITextureRegion[] textureRegions, float spacing, IOnMenuItemClickListener pOnMenuItemClickListener, String[] ids){
+		final MenuScene menuScene = new MenuScene(camera);
+		final SpriteMenuItem[] items = new SpriteMenuItem[textureRegions.length];
+		for(int i = 0;i < textureRegions.length;i++){
+			items[i] = new SpriteMenuItem(i, textureRegions[i], getVBOM());
+			items[i].setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+			menuScene.addMenuItem(items[i]);
+			final Text menu_text = new Text(0, 0, font_title, ids[i], getVBOM());
+			attach(menu_text, Alignment.CENTER, items[i]);
+		}
+		menuScene.setMenuAnimator(new AlphaMenuAnimator(spacing));
+		menuScene.buildAnimations();
+		menuScene.setBackgroundEnabled(false);
+		menuScene.setOnMenuItemClickListener(pOnMenuItemClickListener);
+		return menuScene;
 	}
 }

@@ -235,7 +235,7 @@ public class MainActivity extends SimpleBaseGameActivity implements Constants{
 	
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, Game.class));
+		startActivity(new Intent(this, MainMenuActivity.class));
 		finish();
 	}
 

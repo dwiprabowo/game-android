@@ -137,7 +137,7 @@ public class ChooseLevelActivity extends SimpleBaseGameActivity implements Const
 	
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, Game.class));
+		startActivity(new Intent(this, MainMenuActivity.class));
 		finish();
 	}
 }
