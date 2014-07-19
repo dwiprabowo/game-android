@@ -1,41 +1,22 @@
 package com.example.game.activities;
 
 import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
-import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.ITextureRegion;
-
 import com.example.game.Alignment;
 import com.example.game.GameActivityModel;
-
-import android.content.Intent;
 import android.graphics.Color;
 
-public class ChooseLevelActivity extends GameActivityModel implements OnClickListener {
+public class ChooseLevelActivity extends GameActivityModel{
 
 	private Font smallerTitleFont;
-	private Font mMonoFont;
-	
-	private ITextureRegion mLevelTextureRegion;
+	private Font monoFont;
+	private ButtonSprite button_level;
 
 	@Override
 	public void init_resources() {
-		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		final ITexture monoFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-
-		FontFactory.setAssetBasePath("font/");
-		this.smallerTitleFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Forque.ttf", 20, true, Color.WHITE);
-		this.smallerTitleFont.load();
-		this.mMonoFont = FontFactory.createFromAsset(this.getFontManager(), monoFontTexture, this.getAssets(), "Anonymous.ttf", 16, true, Color.WHITE);
-		this.mMonoFont.load();
-		
-		mLevelTextureRegion = texture_region("gfx/menu/level.png");
+		smallerTitleFont = create_font("Forque.ttf", 20, Color.WHITE);
+		monoFont = create_font("Anonymous.ttf", 16, Color.WHITE);
 	}
 
 	@Override
@@ -45,37 +26,31 @@ public class ChooseLevelActivity extends GameActivityModel implements OnClickLis
 		final Text title = new Text(0, 0, getFontTitle(), "Pilih Level", getVBOM());
 		attach(title, Alignment.TOP_CENTER);set_position(title, 0, 20);
 		
-		final Text text_level = new Text(0, 0, smallerTitleFont, "Level "+level, getVBOM());
-		final Text text_skor = new Text(0, 0, mMonoFont, "Skor =", getVBOM());
-		final Text text_soal  = new Text(0, 0, mMonoFont, "Soal =", getVBOM());
-		final Text text_skor_number = new Text(0, 0, mMonoFont, "50,00", getVBOM());
-		final Text text_soal_number = new Text(0, 0, mMonoFont, "10", getVBOM());
-		final Text mulai = new Text(0, 0, smallerTitleFont, "Mulai", getVBOM());
+		final Text text_level 		= create_text(smallerTitleFont, "Level "+level);
+		final Text text_skor 		= create_text(monoFont, "Skor =");
+		final Text text_soal  		= create_text(monoFont, "Soal =");
+		final Text text_skor_number = create_text(monoFont, "50,00");
+		final Text text_soal_number = create_text(monoFont, "10");
+		final Text mulai 			= create_text(smallerTitleFont, "Mulai");
 		
-		final Sprite level_frame = new ButtonSprite(0, 0, mLevelTextureRegion, this.getVertexBufferObjectManager(), this);
+		button_level = create_button_sprite("gfx/menu/level.png", true);
 		
-		getScene().registerTouchArea(level_frame);
-		attach(level_frame, Alignment.CENTER);
-		attach(text_level, Alignment.TOP_CENTER, level_frame);
-		attach(text_skor, Alignment.MIDDLE_LEFT, level_frame);set_position(text_skor, 30, -13);
-		attach(text_soal, Alignment.MIDDLE_LEFT, level_frame);set_position(text_soal, 30, 7);
-		attach(text_skor_number, Alignment.MIDDLE_RIGHT, level_frame);set_position(text_skor_number, -30, -13);
-		attach(text_soal_number, Alignment.MIDDLE_RIGHT, level_frame);set_position(text_soal_number, -30, 7);
-		attach(mulai, Alignment.BOTTOM_CENTER, level_frame);set_position(mulai, 0, -6);
-	}
-
-	@Override
-	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
-			float pTouchAreaLocalY) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ChooseLevelActivity.this.startActivity(new Intent(ChooseLevelActivity.this, MainActivity.class));
-				ChooseLevelActivity.this.finish();
-			}
-		});
+		attach(button_level, Alignment.CENTER);
+		attach(text_level, Alignment.TOP_CENTER, button_level);
+		attach(text_skor, button_level, Alignment.MIDDLE_LEFT, 30, -13);
+		attach(text_soal, button_level, Alignment.MIDDLE_LEFT, 30, 7);
+		attach(text_skor_number, button_level, Alignment.MIDDLE_RIGHT, -30, -13);
+		attach(text_soal_number, button_level, Alignment.MIDDLE_RIGHT, -30, 7);
+		attach(mulai, button_level, Alignment.BOTTOM_CENTER, 0, -6);
 	}
 	
+	@Override
+	public void button_sprite_clicked(ButtonSprite buttonSprite) {
+		if(buttonSprite == button_level){
+			startAndFinish(MainActivity.class);
+		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		startAndFinish(MainMenuActivity.class);

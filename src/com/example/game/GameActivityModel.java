@@ -2,6 +2,7 @@ package com.example.game;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -16,6 +17,8 @@ import org.andengine.entity.scene.menu.animator.AlphaMenuAnimator;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
@@ -30,13 +33,14 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
-public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants, IOnMenuItemClickListener{
+public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants, IOnMenuItemClickListener, OnClickListener{
 	
 	private Camera camera;
 	private Scene scene;
@@ -221,7 +225,15 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public Sprite create_sprite(String path){
 		ITextureRegion textureRegion = texture_region(path);
-		return new Sprite(0, 0, textureRegion, getVBOM());
+		Sprite sprite = new Sprite(0, 0, textureRegion, getVBOM());
+		return sprite;
+	}
+	
+	public ButtonSprite create_button_sprite(String path, boolean registerTouchArea){
+		ITextureRegion textureRegion = texture_region(path);
+		ButtonSprite sprite = new ButtonSprite(0, 0, textureRegion, getVBOM(), this);
+		if(registerTouchArea)scene.registerTouchArea(sprite);
+		return sprite;
 	}
 	
 	public SpriteMenuItem create_sprite_menu_item(int id, String path){
@@ -271,6 +283,22 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 				dialog.show();
 			}
 		});
+	}
+	
+	public Font create_font(String path, float size, int color){
+		FontFactory.setAssetBasePath("font/");
+		final ITexture fontTexture = new BitmapTextureAtlas(getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		Font font = FontFactory.createFromAsset(getFontManager(), fontTexture, getAssets(), path, size, true, color);
+		font.load();
+		return font;
+	}
+	
+	public void button_sprite_clicked(ButtonSprite buttonSprite){}
+	
+	@Override
+	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
+			float pTouchAreaLocalY) {
+		button_sprite_clicked(pButtonSprite);
 	}
 
 }
