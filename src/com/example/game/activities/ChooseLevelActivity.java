@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.activities;
 
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
@@ -10,6 +10,10 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
+
+import com.example.game.Alignment;
+import com.example.game.GameActivityModel;
+
 import android.content.Intent;
 import android.graphics.Color;
 

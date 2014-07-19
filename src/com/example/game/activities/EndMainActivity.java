@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.activities;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +23,8 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
+
+import com.example.game.Constants;
 
 import android.content.Intent;
 import android.graphics.Color;

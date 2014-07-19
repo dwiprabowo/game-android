@@ -1,4 +1,4 @@
-package com.example.game;
+package com.example.game.activities;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
@@ -11,6 +11,11 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.HorizontalAlign;
+
+import com.example.game.Alignment;
+import com.example.game.GameActivityModel;
+import com.example.game.GameData;
+
 import android.graphics.Color;
 
 public class MainActivity extends GameActivityModel implements GameData{
@@ -27,15 +32,13 @@ public class MainActivity extends GameActivityModel implements GameData{
 	@Override
 	protected void init_resources() {
 		mQuestionFrameTextureRegion = texture_region("gfx/question_frame.png");
-		
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			this.mOptionsFrameTextureRegion[i] = texture_region("gfx/option_frame.png");
 		}
-		
+		FontFactory.setAssetBasePath("font/");
 		final ITexture fontSubTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 		final ITexture fontQuestionTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 		final ITexture fontOptionTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		FontFactory.setAssetBasePath("font/");
 		this.mSubFont = FontFactory.createFromAsset(this.getFontManager(), fontSubTexture, this.getAssets(), "Anonymous.ttf", 16, true, Color.BLACK);
 		this.mSubFont.load();
 		this.mQuestionFont = FontFactory.createFromAsset(this.getFontManager(), fontQuestionTexture, this.getAssets(), "OpenSans-Regular.ttf", 16, true, Color.BLACK);
@@ -51,15 +54,15 @@ public class MainActivity extends GameActivityModel implements GameData{
 		int level = 1;
 		question_number = 0;
 		
-		final Sprite question_frame = new Sprite(0, 0, this.mQuestionFrameTextureRegion, this.getVertexBufferObjectManager());
+		final Sprite question_frame = new Sprite(0, 0, this.mQuestionFrameTextureRegion, getVBOM());
 		attach(question_frame, Alignment.CENTER);set_position(question_frame, 0, -30);
 		
-		final Text title = new Text(0, 0, getFontTitle(), "Main", this.getVertexBufferObjectManager());
-		final Text level_text = new Text(0, 0, mSubFont, "Level", this.getVertexBufferObjectManager());
-		final Text level_number = new Text(0, 0, mSubFont, "", 2, this.getVertexBufferObjectManager());
-		final Text soal = new Text(0, 0, mSubFont, "/10", this.getVertexBufferObjectManager());
-		final Text soal_number = new Text(0, 0, mSubFont, "", 2, this.getVertexBufferObjectManager());
-		final Text question = new Text(0, 0, mQuestionFont, "", 200, new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
+		final Text title 		= new Text(0, 0, getFontTitle(), "Main", getVBOM());
+		final Text level_text 	= new Text(0, 0, mSubFont, "Level", getVBOM());
+		final Text level_number = new Text(0, 0, mSubFont, "", 2, getVBOM());
+		final Text soal 		= new Text(0, 0, mSubFont, "/10", getVBOM());
+		final Text soal_number 	= new Text(0, 0, mSubFont, "", 2, getVBOM());
+		final Text question 	= new Text(0, 0, mQuestionFont, "", 200, new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
 		
 		attach(title, Alignment.TOP_CENTER);
 		attach(level_text, Alignment.LEFT_TOP);set_position(level_text, 10, 25);

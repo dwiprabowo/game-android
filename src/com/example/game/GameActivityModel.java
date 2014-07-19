@@ -3,6 +3,8 @@ package com.example.game;
 import java.io.IOException;
 import java.io.InputStream;
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -11,8 +13,10 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.animator.AlphaMenuAnimator;
+import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.shape.RectangularShape;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
@@ -26,16 +30,16 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
-public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants{
+public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants, IOnMenuItemClickListener{
 	
 	private Camera camera;
 	private Scene scene;
-	
 	private Font font_title;
 	
 	@Override
@@ -100,6 +104,16 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public VertexBufferObjectManager getVBOM(){
 		return getVertexBufferObjectManager();
+	}
+	
+	public void attach(RectangularShape child, Alignment align, float x, float y){
+		attach(child, align);
+		set_position(child, x, y);
+	}
+	
+	public void attach(RectangularShape child, RectangularShape parent, Alignment align, float x, float y){
+		attach(child, align, parent);
+		set_position(child, x, y);
 	}
 	
 	public void attach(RectangularShape child, Alignment align){
@@ -179,25 +193,84 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		object.setPosition(object.getX() + x, object.getY() + y);
 	}
 	
-	public MenuScene build_menu_scene(ITextureRegion[] textureRegions, float spacing, IOnMenuItemClickListener pOnMenuItemClickListener, String[] ids){
+	public MenuScene build_menu_scene(String path, String[] ids){
 		final MenuScene menuScene = new MenuScene(camera);
-		final SpriteMenuItem[] items = new SpriteMenuItem[textureRegions.length];
-		for(int i = 0;i < textureRegions.length;i++){
-			items[i] = new SpriteMenuItem(i, textureRegions[i], getVBOM());
+		final SpriteMenuItem[] items = new SpriteMenuItem[ids.length];
+		for(int i = 0;i < ids.length;i++){
+			items[i] = create_sprite_menu_item(i, path);
 			items[i].setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			menuScene.addMenuItem(items[i]);
 			final Text menu_text = new Text(0, 0, font_title, ids[i], getVBOM());
 			attach(menu_text, Alignment.CENTER, items[i]);
 		}
-		menuScene.setMenuAnimator(new AlphaMenuAnimator(spacing));
+		menuScene.setMenuAnimator(new AlphaMenuAnimator(10));
 		menuScene.buildAnimations();
 		menuScene.setBackgroundEnabled(false);
-		menuScene.setOnMenuItemClickListener(pOnMenuItemClickListener);
+		menuScene.setOnMenuItemClickListener(this);
 		return menuScene;
+	}
+	
+	public void set_menu(String path, String[] ids){
+		scene.setChildScene(build_menu_scene(path, ids),false, true, true);
 	}
 	
 	public void startAndFinish(Class<?> cls){
 		startActivity(new Intent(this, cls));
 		finish();
 	}
+	
+	public Sprite create_sprite(String path){
+		ITextureRegion textureRegion = texture_region(path);
+		return new Sprite(0, 0, textureRegion, getVBOM());
+	}
+	
+	public SpriteMenuItem create_sprite_menu_item(int id, String path){
+		ITextureRegion textureRegion = texture_region(path);
+		return new SpriteMenuItem(id, textureRegion, getVBOM());
+	}
+	
+	public Text create_text(Font font, String text){
+		return new Text(0, 0, font, text, getVBOM());
+	}
+	
+	public void change_activity_in(float miliseconds, final Class<?> cls){
+		scene.registerUpdateHandler(new TimerHandler(miliseconds, new ITimerCallback(){
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				GameActivityModel.this.scene.unregisterUpdateHandler(pTimerHandler);
+				GameActivityModel.this.startAndFinish(cls);
+			}
+		}));
+	}
+	
+	public void menu_clicked(int menuID){}
+	
+	@Override
+	public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
+			float pMenuItemLocalX, float pMenuItemLocalY) {
+		menu_clicked(pMenuItem.getID());
+		return true;
+	}
+
+	public void exit_dialog(String msg, String yes, String no){
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(msg).setPositiveButton(yes, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				GameActivityModel.this.finish();
+			}
+		}).setNegativeButton(no, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				AlertDialog dialog = builder.create();
+				dialog.show();
+			}
+		});
+	}
+
 }
