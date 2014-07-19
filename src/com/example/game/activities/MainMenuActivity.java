@@ -14,8 +14,7 @@ public class MainMenuActivity extends GameActivityModel implements Constants{
 	protected static final int MENU_KELUAR = MENU_ABOUT + 1;
 
 	@Override
-	protected void init_resources() {
-	}
+	protected void init_resources() {}
 
 	@Override
 	protected void init_scene() {
@@ -29,10 +28,10 @@ public class MainMenuActivity extends GameActivityModel implements Constants{
 	public void menu_clicked(int menuID) {
 		switch(menuID){
 			case MENU_MAIN:
-				startAndFinish(ChooseLevelActivity.class);
+				start_and_finish(ChooseLevelActivity.class);
 				break;
 			case MENU_BELAJAR:
-				Utils.log("belajar...");
+				start_and_finish(PilihKategoriBelajarActivity.class);
 				break;
 			case MENU_SKOR:
 				Utils.log("skor...");

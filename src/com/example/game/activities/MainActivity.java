@@ -89,7 +89,7 @@ public class MainActivity extends GameActivityModel implements GameData{
 						question_number++;
 					}
 					if(question_number == max_update){
-						startAndFinish(EndMainActivity.class);
+						start_and_finish(EndMainActivity.class);
 					}
 					return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 				}
@@ -123,7 +123,7 @@ public class MainActivity extends GameActivityModel implements GameData{
 	
 	@Override
 	public void onBackPressed() {
-		startAndFinish(MainMenuActivity.class);
+		start_and_finish(MainMenuActivity.class);
 	}
 
 }

@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".activities.MainMenuActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.ChooseLevelActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.PilihKategoriBelajarActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.BelajarActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.MainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.EndMainActivity" android:configChanges="orientation"></activity>
     </application>

@@ -21,6 +21,7 @@ import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.text.TextOptions;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
@@ -31,8 +32,11 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.HorizontalAlign;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -197,30 +201,74 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		object.setPosition(object.getX() + x, object.getY() + y);
 	}
 	
-	public MenuScene build_menu_scene(String path, String[] ids){
+	public MenuScene build_menu_scene(String path, String[] ids, Font font){
+		return build_menu_scene(path, ids, 10, font, 0);
+	}
+	
+	public MenuScene build_menu_scene(String path, String[] ids, float spacing, Font font, float offsetY){
 		final MenuScene menuScene = new MenuScene(camera);
 		final SpriteMenuItem[] items = new SpriteMenuItem[ids.length];
 		for(int i = 0;i < ids.length;i++){
 			items[i] = create_sprite_menu_item(i, path);
 			items[i].setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			menuScene.addMenuItem(items[i]);
-			final Text menu_text = new Text(0, 0, font_title, ids[i], getVBOM());
+			final Text menu_text = new Text(0, 0, font, ids[i], getVBOM());
 			attach(menu_text, Alignment.CENTER, items[i]);
 		}
-		menuScene.setMenuAnimator(new AlphaMenuAnimator(10));
+		menuScene.setMenuAnimator(new AlphaMenuAnimator(spacing));
 		menuScene.buildAnimations();
 		menuScene.setBackgroundEnabled(false);
 		menuScene.setOnMenuItemClickListener(this);
+		menuScene.setY(offsetY);
 		return menuScene;
 	}
 	
 	public void set_menu(String path, String[] ids){
-		scene.setChildScene(build_menu_scene(path, ids),false, true, true);
+		set_menu(path, ids, 10, font_title, 0);
 	}
 	
-	public void startAndFinish(Class<?> cls){
-		startActivity(new Intent(this, cls));
+	public void set_menu(String path, String[] ids, float spacing, Font font, float offsetY){
+		scene.setChildScene(build_menu_scene(path, ids, spacing, font, offsetY),false, true, true);
+	}
+	
+	public void start_and_finish(Class<?> cls){
+		start_and_finish(cls, null);
+	}
+	
+	public void start_and_finish(Class<?> cls, String json_string){
+		Intent intent = new Intent(this, cls);
+		if(json_string != null)
+			intent.putExtra("json_data", json_string);
+		startActivity(intent);
 		finish();
+	}
+	
+	public String json(String json_string){
+		JSONObject json = null;
+		try {
+			json = new JSONObject(json_string);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return json.toString();
+	}
+	
+	public String get_extra(String name){
+		Intent intent = getIntent();
+		JSONObject json = null;
+		String json_string = intent.getStringExtra("json_data");
+		try {
+			json = new JSONObject(json_string);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		String value = null;
+		try {
+			value = json.getString(name);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 	
 	public Sprite create_sprite(String path){
@@ -241,6 +289,14 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return new SpriteMenuItem(id, textureRegion, getVBOM());
 	}
 	
+	public Text create_text(Font font, int maximumChars, HorizontalAlign align){
+		return new Text(0, 0, font, "", maximumChars, new TextOptions(align), getVBOM());
+	}
+	
+	public Text create_text(Font font, int maximumChars){
+		return new Text(0, 0, font, "", maximumChars, getVBOM());
+	}
+	
 	public Text create_text(Font font, String text){
 		return new Text(0, 0, font, text, getVBOM());
 	}
@@ -250,7 +306,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				GameActivityModel.this.scene.unregisterUpdateHandler(pTimerHandler);
-				GameActivityModel.this.startAndFinish(cls);
+				GameActivityModel.this.start_and_finish(cls);
 			}
 		}));
 	}

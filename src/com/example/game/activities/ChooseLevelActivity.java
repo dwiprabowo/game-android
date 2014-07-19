@@ -47,12 +47,12 @@ public class ChooseLevelActivity extends GameActivityModel{
 	@Override
 	public void button_sprite_clicked(ButtonSprite buttonSprite) {
 		if(buttonSprite == button_level){
-			startAndFinish(MainActivity.class);
+			start_and_finish(MainActivity.class);
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
-		startAndFinish(MainMenuActivity.class);
+		start_and_finish(MainMenuActivity.class);
 	}
 }
