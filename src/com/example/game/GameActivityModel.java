@@ -160,7 +160,22 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		}
 	}
 	
+	public void set_position(RectangularShape object, Alignment align){
+		set_position(object, 0, 0, align);
+	}
+	
 	public void set_position(RectangularShape object, float x, float y){
+		set_position(object, x, y, null);
+	}
+	
+	public void set_position(RectangularShape object, float x, float y, Alignment align){
+		if(align != null){
+			if(object.getParent() == scene){
+				align(object, align);
+			} else {
+				align(object, (RectangularShape) object.getParent(), align);
+			}
+		}
 		object.setPosition(object.getX() + x, object.getY() + y);
 	}
 	

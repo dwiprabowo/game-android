@@ -11,13 +11,13 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.util.HorizontalAlign;
-import android.content.Intent;
 import android.graphics.Color;
 
 public class MainActivity extends GameActivityModel implements GameData{
 
 	private Font mSubFont;
 	private Font mQuestionFont;
+	private Font optionFont;
 	
 	final static int OPTIONS_COUNT = 4;
 	
@@ -34,11 +34,14 @@ public class MainActivity extends GameActivityModel implements GameData{
 		
 		final ITexture fontSubTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 		final ITexture fontQuestionTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		final ITexture fontOptionTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 		FontFactory.setAssetBasePath("font/");
-		this.mSubFont = FontFactory.createFromAsset(this.getFontManager(), fontSubTexture, this.getAssets(), "Anonymous.ttf", 18, true, Color.BLACK);
+		this.mSubFont = FontFactory.createFromAsset(this.getFontManager(), fontSubTexture, this.getAssets(), "Anonymous.ttf", 16, true, Color.BLACK);
 		this.mSubFont.load();
 		this.mQuestionFont = FontFactory.createFromAsset(this.getFontManager(), fontQuestionTexture, this.getAssets(), "OpenSans-Regular.ttf", 16, true, Color.BLACK);
 		this.mQuestionFont.load();
+		optionFont = FontFactory.createFromAsset(this.getFontManager(), fontOptionTexture, this.getAssets(), "Eligible-Regular.ttf", 12, true, Color.BLACK);
+		optionFont.load();
 	}
 	
 	static int question_number;
@@ -83,22 +86,23 @@ public class MainActivity extends GameActivityModel implements GameData{
 						question_number++;
 					}
 					if(question_number == max_update){
-						startActivity(new Intent(MainActivity.this, EndMainActivity.class));
-						finish();
+						startAndFinish(EndMainActivity.class);
 					}
-					return super
-							.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+					return super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
 				}
 			};
-			options[i] = new Text(0, 0, mQuestionFont, "", 40, new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
+			options[i] = new Text(0, 0, optionFont, "", 40, new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
 			options_frame[i].attachChild(options[i]);
 			attach(options_frame[i], Alignment.BOTTOM_CENTER);
 			getScene().registerTouchArea(options_frame[i]);
 		}
-		set_position(options_frame[0], -55, -55);
-		set_position(options_frame[1], 55, -55);
-		set_position(options_frame[2], -55, -10);
-		set_position(options_frame[3], 55, -10);
+		int gap_x = 55;
+		int gap_y1 = 55;
+		int gap_y2 = 10;
+		set_position(options_frame[0], -gap_x, -gap_y1);
+		set_position(options_frame[1], gap_x, -gap_y1);
+		set_position(options_frame[2], -gap_x, -gap_y2);
+		set_position(options_frame[3], gap_x, -gap_y2);
 		
 		update_question(question_number, question, question_frame, soal_number, options, options_frame);
 	}
@@ -107,17 +111,16 @@ public class MainActivity extends GameActivityModel implements GameData{
 		soal_number.setText(""+(index+1));
 		soal_number.setPosition(-(soal_number.getWidth()+2), 0);
 		question.setText(QUESTIONS[index].getQuestion());
-		question.setPosition(parent.getWidth()/2 - question.getWidth()/2, parent.getHeight()/2 - question.getHeight()/2);
+		set_position(question, Alignment.CENTER);
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			options[i].setText(QUESTIONS[index].getOptions()[i]);
-			options[i].setPosition(options_frame[i].getWidth()/2 - options[i].getWidth()/2, options_frame[i].getHeight()/2 - options[i].getHeight()/2);
+			set_position(options[i], Alignment.CENTER);
 		}
 	}
 	
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, MainMenuActivity.class));
-		finish();
+		startAndFinish(MainMenuActivity.class);
 	}
 
 }
