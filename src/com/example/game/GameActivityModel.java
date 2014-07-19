@@ -53,7 +53,18 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		EngineOptions eo = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		eo.getAudioOptions().setNeedsMusic(need_music());
+		eo.getAudioOptions().setNeedsSound(need_sound());
+		return eo;
+	}
+	
+	protected boolean need_music(){
+		return false;
+	}
+	
+	protected boolean need_sound(){
+		return true;
 	}
 	
 	@Override
