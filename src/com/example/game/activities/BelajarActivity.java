@@ -147,11 +147,10 @@ public class BelajarActivity extends GameActivityModel{
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			if(buttonSprite == options_frame[i]){
 				if(question.getAnswer() == i){
-//					poins[category] += question.getPoin();
 					set_poin((int) (get_poin(category)+question.getPoin()), category);
-					play_sound(goodSound);
+					play(goodSound);
 				}else{
-					play_sound(badSound);
+					play(badSound);
 				}
 				question_number++;
 				if(question_number == questions.size())
@@ -166,7 +165,6 @@ public class BelajarActivity extends GameActivityModel{
 		question_number++;
 		if(question_number == questions.size())
 			question_number = 0;
-//		poins[category] = 0;
 		set_poin( 0, category);
 		update_question(question_number, category);
 	}

@@ -1,6 +1,6 @@
 package com.example.game;
 
-public interface Constants {
+public interface Constants extends SplashActivityConstants, MainMenuActivityConstants{
 	
 	static final String PREFS_NAME = "game_data";
 	

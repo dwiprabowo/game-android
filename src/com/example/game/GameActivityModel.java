@@ -153,11 +153,11 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return true;
 	}
 	
-	public void play_sound(Sound sound){
+	public void play(Sound sound){
 		if(is_sound_on() && need_sound())sound.play();
 	}
 	
-	public void play_music(Music music){
+	public void play(Music music){
 		if(is_sound_on() && need_music())music.play();
 	}
 	

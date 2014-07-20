@@ -9,13 +9,12 @@ import com.example.game.GameActivityModel;
 public class SplashActivity extends GameActivityModel{
 
 	@Override
-	protected void init_resources() {
-	}
+	protected void init_resources() {}
 
 	@Override
 	protected void init_scene() {
-		final Sprite background = create_sprite("gfx/splash_screen.png");
-		final Text title = create_text(getFontTitle(), "Uji Ke-Indonesia-anmu!");
+		final Sprite background = create_sprite(BACKGROUND_IMAGE_PATH);
+		final Text title = create_text(getFontTitle(), GAME_TITLE);
 		
 		attach(background, Alignment.CENTER, 0, 20);
 		attach(title, Alignment.CENTER, 0, -80);
