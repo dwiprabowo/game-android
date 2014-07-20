@@ -2,6 +2,7 @@ package com.example.game.activities;
 
 import java.util.ArrayList;
 
+import org.andengine.audio.sound.Sound;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
@@ -21,21 +22,29 @@ public class BelajarActivity extends GameActivityModel{
 	ArrayList<Question> questions = new ArrayList<Question>();
 	
 	Font subTitle, monoFont, questionFont, optionFont;
+	private Sound goodSound, badSound;
 	
 	@Override
 	protected void init_resources() {
 		Utils.log("category id : "+get_extra("category"));
-		int category = Integer.parseInt(get_extra("category"));
+		category = Integer.parseInt(get_extra("category"));
 		questions = find_questions(category, GameData.QUESTIONS);
 		
 		subTitle = create_font("Forque.ttf", 20, Color.BLACK);
 		monoFont = create_font("Anonymous.ttf", 16, Color.BLACK);
 		questionFont = create_font("OpenSans-Regular.ttf", 16, Color.BLACK);
 		optionFont = create_font("Eligible-Regular.ttf", 12, Color.BLACK);
+		
+		goodSound = load_sound("good.wav");
+		badSound = load_sound("bad.mp3");
 	}
 	
 	static int question_number;
-	static int poins;
+	static int[] poins = new int[]{ 0, 0, 0, 0, 0, 0, 0};
+	
+	public static void reset_poins(){
+		poins = new int[]{ 0, 0, 0, 0, 0, 0, 0};
+	}
 	
 	Sprite question_image;
 	ButtonSprite reset_button;
@@ -44,17 +53,17 @@ public class BelajarActivity extends GameActivityModel{
 	ButtonSprite[] options_frame = new ButtonSprite[OPTIONS_COUNT];
 	Text[] options = new Text[OPTIONS_COUNT];
 	Text poin_number;
+	int category;
 	
 	@Override
 	protected void init_scene() {
 		question_number = 0;
-		poins = 0;
 		build_ui_part();
 		build_question_part();
-		update_question(question_number, poins);
+		update_question(question_number, category);
 	}
 	
-	void update_question(int number, int poins){
+	void update_question(int number, int category){
 		Question question = questions.get(number);
 		if(question.getPath() != null){
 			if(question_image != null)
@@ -63,11 +72,10 @@ public class BelajarActivity extends GameActivityModel{
 			attach(question_image, question_frame, Alignment.TOP_CENTER, 0, 4);
 		}
 		try {
-			poin_number.setText(String.valueOf(poins));
+			poin_number.setText(String.valueOf(poins[category]));
 		} catch (Exception e) {
-			BelajarActivity.poins = 0;
-			poins = BelajarActivity.poins;
-			poin_number.setText(String.valueOf(poins));
+			poins[category] = 0;
+			poin_number.setText(String.valueOf(poins[category]));
 		}
 		poin_number.setX(-(poin_number.getWidth()+4));
 		
@@ -146,12 +154,15 @@ public class BelajarActivity extends GameActivityModel{
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			if(buttonSprite == options_frame[i]){
 				if(question.getAnswer() == i){
-					poins += question.getPoin();
+					poins[category] += question.getPoin();
+					play_sound(goodSound);
+				}else{
+					play_sound(badSound);
 				}
 				question_number++;
 				if(question_number == questions.size())
 					question_number = 0;
-				update_question(question_number, poins);
+				update_question(question_number, category);
 				break;
 			}
 		}
@@ -161,8 +172,8 @@ public class BelajarActivity extends GameActivityModel{
 		question_number++;
 		if(question_number == questions.size())
 			question_number = 0;
-		poins = 0;
-		update_question(question_number, poins);
+		poins[category] = 0;
+		update_question(question_number, category);
 	}
 	
 }

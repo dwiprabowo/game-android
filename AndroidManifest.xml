@@ -26,6 +26,7 @@
         <activity android:name=".activities.BelajarActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.MainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.EndMainActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.SettingActivity" android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

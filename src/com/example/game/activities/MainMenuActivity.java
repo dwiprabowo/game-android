@@ -1,12 +1,8 @@
 package com.example.game.activities;
 
-import java.io.IOException;
-
 import org.andengine.audio.music.Music;
-import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
-import org.andengine.util.debug.Debug;
 
 import com.example.game.Constants;
 import com.example.game.GameActivityModel;
@@ -21,29 +17,15 @@ public class MainMenuActivity extends GameActivityModel implements Constants{
 	protected static final int MENU_ABOUT = MENU_SETTING + 1;
 	protected static final int MENU_KELUAR = MENU_ABOUT + 1;
 	
-	private Music mMusic;
-	private Sound mGoodSound, mBadSound;
+	private Music music;
+	private Sound goodSound, badSound;
 
 	@Override
 	protected void init_resources() {
-		MusicFactory.setAssetBasePath("mfx/");
 		SoundFactory.setAssetBasePath("sfx/");
-		try {
-			this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "FamiliarRoads.mid");
-			this.mMusic.setLooping(true);
-		} catch (final IOException e) {
-			Debug.e(e);
-		}
-		try {
-			this.mGoodSound = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "good.wav");
-		} catch (final IOException e) {
-			Debug.e(e);
-		}
-		try {
-			this.mBadSound = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "bad.mp3");
-		} catch (final IOException e) {
-			Debug.e(e);
-		}
+		music = load_music("FamiliarRoads.mid");
+		goodSound = load_sound("good.wav");
+		badSound = load_sound("bad.mp3");
 	}
 
 	@Override
@@ -52,15 +34,15 @@ public class MainMenuActivity extends GameActivityModel implements Constants{
 			"gfx/menu/menu_main_frame.png",
 			new String[]{"Main", "Belajar", "Skor Tertinggi", "Setting", "About", "Keluar"}
 		);
-		mMusic.play();
+		play_music(music);
 	}
 	
 	@Override
 	public void menu_clicked(int menuID) {
 		if(menuID != MENU_KELUAR){
-			mGoodSound.play();
+			play_sound(goodSound);
 		} else {
-			mBadSound.play();
+			play_sound(badSound);
 		}
 		switch(menuID){
 			case MENU_MAIN:
@@ -73,7 +55,7 @@ public class MainMenuActivity extends GameActivityModel implements Constants{
 				Utils.log("skor...");
 				break;
 			case MENU_SETTING:
-				Utils.log("setting...");
+				start_and_finish(SettingActivity.class);
 				break;
 			case MENU_ABOUT:
 				Utils.log("about...");

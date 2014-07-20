@@ -3,6 +3,10 @@ package com.example.game;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -50,6 +54,16 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	private Scene scene;
 	private Font font_title;
 	
+	static boolean sound_on = true;
+	
+	public static boolean is_sound_on(){
+		return sound_on;
+	}
+	
+	public static void set_sound_on(boolean flag){
+		sound_on = flag;
+	}
+	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
 		camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
@@ -65,6 +79,38 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	protected boolean need_sound(){
 		return true;
+	}
+	
+	public void play_sound(Sound sound){
+		if(sound_on && need_sound())sound.play();
+	}
+	
+	public void play_music(Music music){
+		if(sound_on && need_music())music.play();
+	}
+	
+	public Sound load_sound(String filename){
+		SoundFactory.setAssetBasePath("sfx/");
+		Sound sound = null;
+		try {
+			sound = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, filename);
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+		return sound;
+	}
+	
+	public Music load_music(String filename){
+		MusicFactory.setAssetBasePath("mfx/");
+		Music music = null;
+		if(!need_music())return null;
+		try {
+			music = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, filename);
+			music.setLooping(true);
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+		return music;
 	}
 	
 	@Override
