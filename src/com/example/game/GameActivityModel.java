@@ -2,7 +2,6 @@ package com.example.game;
 
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
@@ -42,13 +41,13 @@ import org.andengine.util.debug.Debug;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.opengl.GLES20;
+import android.widget.Toast;
 
 public abstract class GameActivityModel extends SimpleBaseGameActivity implements Constants, IOnMenuItemClickListener, OnClickListener{
 	
@@ -216,8 +215,8 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	private void load_fonts(){
 		FontFactory.setAssetBasePath("font/");
-		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		this.font_title = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Forque.ttf", 28, true, Color.BLACK);
+		final ITexture fontTexture = new BitmapTextureAtlas(getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		this.font_title = FontFactory.createFromAsset(getFontManager(), fontTexture, getAssets(), FONT_FORQUE_FILENAME, FONT_TITLE_SIZE, true, Color.BLACK);
 		this.font_title.load();
 	}
 	
@@ -406,10 +405,10 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return sprite;
 	}
 	
-	public ButtonSprite create_button_sprite(String path, boolean registerTouchArea){
+	public ButtonSprite create_button_sprite(String path){
 		ITextureRegion textureRegion = texture_region(path);
 		ButtonSprite sprite = new ButtonSprite(0, 0, textureRegion, getVBOM(), this);
-		if(registerTouchArea)scene.registerTouchArea(sprite);
+		scene.registerTouchArea(sprite);
 		return sprite;
 	}
 	
@@ -484,6 +483,15 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	public void onClick(ButtonSprite pButtonSprite, float pTouchAreaLocalX,
 			float pTouchAreaLocalY) {
 		button_sprite_clicked(pButtonSprite);
+	}
+	
+	public void toast(final String message){
+		runOnUiThread(new Runnable(){
+			@Override
+			public void run(){
+				Toast.makeText(GameActivityModel.this, message, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 }

@@ -14,13 +14,13 @@ public class ChooseLevelActivity extends GameActivityModel{
 	private ButtonSprite button_level;
 
 	@Override
-	public void init_resources() {
+	public void init_resources(){
 		smallerTitleFont = create_font("Forque.ttf", 20, Color.WHITE);
 		monoFont = create_font("Anonymous.ttf", 16, Color.WHITE);
 	}
 
 	@Override
-	public void init_scene() {
+	public void init_scene(){
 		int level = 1;
 		
 		final Text title = new Text(0, 0, getFontTitle(), "Pilih Level", getVBOM());
@@ -33,7 +33,7 @@ public class ChooseLevelActivity extends GameActivityModel{
 		final Text text_soal_number = create_text(monoFont, "10");
 		final Text mulai 			= create_text(smallerTitleFont, "Mulai");
 		
-		button_level = create_button_sprite("gfx/menu/level.png", true);
+		button_level = create_button_sprite("gfx/menu/level.png");
 		
 		attach(button_level, Alignment.CENTER);
 		attach(text_level, Alignment.TOP_CENTER, button_level);
@@ -45,14 +45,14 @@ public class ChooseLevelActivity extends GameActivityModel{
 	}
 	
 	@Override
-	public void button_sprite_clicked(ButtonSprite buttonSprite) {
+	public void button_sprite_clicked(ButtonSprite buttonSprite){
 		if(buttonSprite == button_level){
 			start_and_finish(MainActivity.class);
 		}
 	}
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed(){
 		start_and_finish(MainMenuActivity.class);
 	}
 }

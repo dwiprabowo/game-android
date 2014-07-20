@@ -91,7 +91,7 @@ public class BelajarActivity extends GameActivityModel{
 		poin_number = create_text(monoFont, 5);
 		final Text poin = create_text(subTitle, "poin");
 		final Text reset = create_text(subTitle, "reset");
-		reset_button = create_button_sprite("gfx/small_button_frame.png", true);
+		reset_button = create_button_sprite("gfx/small_button_frame.png");
 		
 		float subtitle_gap_y = 28;
 		attach(title, Alignment.TOP_CENTER);
@@ -109,7 +109,7 @@ public class BelajarActivity extends GameActivityModel{
 		attach(question, Alignment.CENTER, question_frame);
 		
 		for(int i = 0;i < OPTIONS_COUNT;i++){
-			options_frame[i] = create_button_sprite("gfx/option_frame.png", true);
+			options_frame[i] = create_button_sprite("gfx/option_frame.png");
 			options[i] = create_text(optionFont, 40, HorizontalAlign.CENTER);
 			attach(options_frame[i], Alignment.BOTTOM_CENTER);
 			attach(options[i], Alignment.CENTER, options_frame[i]);
