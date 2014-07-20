@@ -40,11 +40,6 @@ public class BelajarActivity extends GameActivityModel{
 	}
 	
 	static int question_number;
-	static int[] poins = new int[]{ 0, 0, 0, 0, 0, 0, 0};
-	
-	public static void reset_poins(){
-		poins = new int[]{ 0, 0, 0, 0, 0, 0, 0};
-	}
 	
 	Sprite question_image;
 	ButtonSprite reset_button;
@@ -71,12 +66,10 @@ public class BelajarActivity extends GameActivityModel{
 			question_image = create_sprite(question.getPath());
 			attach(question_image, question_frame, Alignment.TOP_CENTER, 0, 4);
 		}
-		try {
-			poin_number.setText(String.valueOf(poins[category]));
-		} catch (Exception e) {
-			poins[category] = 0;
-			poin_number.setText(String.valueOf(poins[category]));
-		}
+		
+		Utils.log(get_poin(category));
+		poin_number.setText(String.valueOf(get_poin(category)));
+		
 		poin_number.setX(-(poin_number.getWidth()+4));
 		
 		this.question.setText(question.getQuestion());
@@ -154,7 +147,8 @@ public class BelajarActivity extends GameActivityModel{
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			if(buttonSprite == options_frame[i]){
 				if(question.getAnswer() == i){
-					poins[category] += question.getPoin();
+//					poins[category] += question.getPoin();
+					set_poin((int) (get_poin(category)+question.getPoin()), category);
 					play_sound(goodSound);
 				}else{
 					play_sound(badSound);
@@ -172,7 +166,8 @@ public class BelajarActivity extends GameActivityModel{
 		question_number++;
 		if(question_number == questions.size())
 			question_number = 0;
-		poins[category] = 0;
+//		poins[category] = 0;
+		set_poin( 0, category);
 		update_question(question_number, category);
 	}
 	

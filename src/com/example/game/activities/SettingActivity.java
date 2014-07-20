@@ -64,7 +64,7 @@ public class SettingActivity extends GameActivityModel{
 			start_and_finish(MainMenuActivity.class);
 		}
 		if(buttonSprite == reset_belajar_frame){
-			BelajarActivity.reset_poins();
+			reset_poins();
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {

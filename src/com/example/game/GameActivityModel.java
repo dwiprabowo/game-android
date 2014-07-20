@@ -39,12 +39,14 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.opengl.GLES20;
 
@@ -53,14 +55,84 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	private Camera camera;
 	private Scene scene;
 	private Font font_title;
+	private boolean sound_on;
 	
-	static boolean sound_on = true;
+	public JSONObject get_game_data(){
+		SharedPreferences data = getSharedPreferences(PREFS_NAME, 0);
+		String json_string = data.getString(PREFS_NAME, "{ 'sound_on': true, 'poins': [0, 0, 0, 0, 0, 0, 0] }");
+		JSONObject json = null;
+		try {
+			json = new JSONObject(json_string);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 	
-	public static boolean is_sound_on(){
+	public void save_game_data(JSONObject json){
+		SharedPreferences data = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = data.edit();
+		editor.putString(PREFS_NAME, json.toString());
+		Utils.log(json);
+		editor.commit();
+	}
+	
+	public int get_poin(int category){
+		int value = -1;
+		try {
+			value = (int) get_game_data().getJSONArray("poins").get(category);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+	
+	public void set_poin(int value, int category){
+		JSONObject json = get_game_data();
+		JSONArray json_array;
+		try {
+			json_array = json.getJSONArray("poins");
+			json_array.put(category, value);
+			json.putOpt("poins", json_array);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		save_game_data(json);
+	}
+	
+	public void reset_poins(){
+		JSONObject json = get_game_data();
+		JSONArray json_array;
+		try{
+			json_array = json.getJSONArray("poins");
+			for(int i = 0;i < json_array.length();i++){
+				json_array.put(i, 0);
+			}
+			json.putOpt("poins", json_array);
+		}catch(JSONException e){
+			e.printStackTrace();
+		}
+		save_game_data(json);
+	}
+	
+	public boolean is_sound_on(){
+		try {
+			sound_on = get_game_data().getBoolean("sound_on");
+			Utils.log("what is sound_on? "+sound_on);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 		return sound_on;
 	}
 	
-	public static void set_sound_on(boolean flag){
+	public void set_sound_on(boolean flag){
+		JSONObject json = get_game_data();
+		try {
+			json.put("sound_on", flag);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		save_game_data(json);
 		sound_on = flag;
 	}
 	
@@ -82,11 +154,11 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	}
 	
 	public void play_sound(Sound sound){
-		if(sound_on && need_sound())sound.play();
+		if(is_sound_on() && need_sound())sound.play();
 	}
 	
 	public void play_music(Music music){
-		if(sound_on && need_music())music.play();
+		if(is_sound_on() && need_music())music.play();
 	}
 	
 	public Sound load_sound(String filename){
