@@ -50,8 +50,12 @@ public abstract class QuestionActivity extends GameActivityModel{
 	
 	abstract void update_question(int number, int category);
 	
+	String set_title(){
+		return "Belajar";
+	}
+	
 	void build_ui_part(){
-		final Text title = create_text(getFontTitle(), "Belajar");
+		final Text title = create_text(getFontTitle(), set_title());
 		attach(title, Alignment.TOP_CENTER);
 	}
 	

@@ -1,33 +1,32 @@
 package com.example.game.activities;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.TextOptions;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.font.Font;
-import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.util.HorizontalAlign;
 
 import com.example.game.Alignment;
-import com.example.game.GameActivityModel;
 import com.example.game.GameData;
 import com.example.game.Question;
 import com.example.game.Utils;
 
-import android.graphics.Color;
-
 public class MainActivity extends QuestionActivity{
 	
 	int poin;
+	Text soal_no;
 	
 	@Override
 	protected void init_scene() {
 		super.init_scene();
+		questions = find_random_questions();
+		final Text level_x = create_text(subTitle, "Level "+(Integer.parseInt(get_extra("level"))+1));
+		final Text soal = create_text(subTitle, "/"+get_soal(Integer.parseInt(get_extra("level"))));
+		soal_no = create_text(subTitle, 4);
+		attach(level_x, Alignment.LEFT_TOP, 10, 30);
+		attach(soal, Alignment.RIGHT_TOP, -10, 30);
+		attach(soal_no, Alignment.MIDDLE_LEFT, soal);
 		poin = 0;
 		update_question(question_number, 0);
 	}
@@ -39,10 +38,11 @@ public class MainActivity extends QuestionActivity{
 
 	@Override
 	void update_question(int number, int category) {
+		soal_no.setText(number+1+"");
+		soal_no.setPosition( -(soal_no.getWidth()+2), 0);
 		Question question = questions.get(number);
+		if(question_image!=null)question_image.detachSelf();
 		if(question.getPath() != null){
-			if(question_image != null)
-				question_image.detachSelf();
 			question_image = create_sprite(question.getPath());
 			attach(question_image, question_frame, Alignment.TOP_CENTER, 0, 4);
 		}
@@ -77,6 +77,59 @@ public class MainActivity extends QuestionActivity{
 				break;
 			}
 		}
+	}
+	
+	@Override
+	String set_title() { return "Main"; }
+	
+	ArrayList<Question> find_random_questions(){
+		ArrayList<Question> value = new ArrayList<Question>();
+		ArrayList<Integer> index_soal = new ArrayList<Integer>();
+		for(int i = 0;i < KATEGORI_COUNT;i++){
+			int randomNumber = i*10+randInt(0, 9);
+			index_soal.add(randomNumber);
+			value.add(GameData.QUESTIONS[randomNumber]);
+		}
+
+		for(int i = 0;i < get_soal(Integer.parseInt(get_extra("level")))-KATEGORI_COUNT;i++){
+			boolean finish = false;
+			int randomBefore = -1;
+			while(!finish){
+				if(value.size() == get_soal(Integer.parseInt(get_extra("level")))){
+					Utils.log("finish!!!");
+					finish = true;
+					continue;
+				}
+				int randomKategori = randInt(0, KATEGORI_COUNT-1);
+				int randomNumber = randomKategori*10+randInt(0, 9);
+				Utils.log("kategori "+randomKategori);
+				Utils.log("number "+randomNumber);
+				if(randomBefore == randomKategori)
+					continue;
+				boolean same = false;
+				for(int j = 0; j < index_soal.size();j++){
+					if(randomNumber == index_soal.get(j)){
+						same = true;break;
+					}
+				}
+				if(!same){
+					index_soal.add(randomNumber);
+					value.add(GameData.QUESTIONS[randomNumber]);
+					randomBefore = randomKategori;
+				}
+				Utils.log("value size: "+value.size());
+				Utils.log("size needed :"+get_soal(Integer.parseInt(get_extra("level"))));
+			}
+		}
+		long seed = System.nanoTime();
+		Collections.shuffle(value, new Random(seed));
+		return value;
+	}
+	
+	public static int randInt(int min, int max) {
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+	    return randomNum;
 	}
 
 }
