@@ -2,6 +2,8 @@ package com.example.game;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
@@ -58,7 +60,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public JSONObject get_game_data(){
 		SharedPreferences data = getSharedPreferences(PREFS_NAME, 0);
-		String json_string = data.getString(PREFS_NAME, "{ 'sound_on': true, 'poins': [0, 0, 0, 0, 0, 0, 0], 'level': [ 10, 10, 10], 'level_skor': [ 0, 0, 0] }");
+		String json_string = data.getString(PREFS_NAME, "{ 'sound_on': true, 'poins': [0, 0, 0, 0, 0, 0, 0], 'level': [ 10, 10, 10, 10, 10, 10, 10], 'level_skor': [ 0, 0, 0, 0, 0, 0, 0] }");
 		JSONObject json = null;
 		try {
 			json = new JSONObject(json_string);
@@ -87,6 +89,13 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		editor.putString(PREFS_NAME, json.toString());
 		Utils.log(json);
 		editor.commit();
+	}
+	
+	public int get_total_skor(){
+		int value = 0;
+		int count = get_level_count();
+		for(int i = 0;i < count;i++)value += get_skor(i);
+		return value;
 	}
 	
 	public int get_soal(int level){

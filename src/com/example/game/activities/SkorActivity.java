@@ -27,11 +27,15 @@ public class SkorActivity extends GameActivityModel{
 		final Text skor = create_text(font, "skor");
 		back = create_button_sprite("gfx/small_button_frame.png");
 		final Text kembali = create_text(font, "kembali");
+		final Text number = create_text(font, "1");
+		final Text total_skor = create_text(font, get_total_skor()+"");
 		
 		attach(title, Alignment.TOP_CENTER, 0, 10);
 		attach(no, Alignment.LEFT_TOP, 0, 50);
 		attach(nama, Alignment.TOP_CENTER, 0, 50);
 		attach(skor, Alignment.RIGHT_TOP, 0, 50);
+		attach(number, Alignment.LEFT_TOP, 0, 70);
+		attach(total_skor, Alignment.RIGHT_TOP, 0, 70);
 		attach(kembali, Alignment.CENTER, back);
 		attach(back, Alignment.RIGHT_BOTTOM);
 	}
