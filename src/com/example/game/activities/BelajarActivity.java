@@ -25,29 +25,26 @@ public class BelajarActivity extends GameActivityModel{
 	private Sound goodSound, badSound;
 	
 	@Override
-	protected void init_resources() {
-		Utils.log("category id : "+get_extra("category"));
+	protected void init_resources(){
 		category = Integer.parseInt(get_extra("category"));
 		questions = find_questions(category, GameData.QUESTIONS);
 		
-		subTitle = create_font("Forque.ttf", 20, Color.BLACK);
-		monoFont = create_font("Anonymous.ttf", 16, Color.BLACK);
-		questionFont = create_font("OpenSans-Regular.ttf", 16, Color.BLACK);
-		optionFont = create_font("Eligible-Regular.ttf", 12, Color.BLACK);
+		subTitle = create_font(FONT_FORQUE_FILENAME, FONT_SMALL_SUBTITLE_SIZE, Color.BLACK);
+		monoFont = create_font(FONT_ANONYMOUS_FILENAME, FONT_MONO_SIZE, Color.BLACK);
+		questionFont = create_font(FONT_OPENSANS_FILENAME, FONT_QUESTION_SIZE, Color.BLACK);
+		optionFont = create_font(FONT_ELIGIBLE_FILENAME, FONT_OPTION_SIZE, Color.BLACK);
 		
-		goodSound = load_sound("good.wav");
-		badSound = load_sound("bad.mp3");
+		goodSound = load_sound(GOOD_SOUND_FILENAME);
+		badSound = load_sound(BAD_SOUND_FILENAME);
 	}
 	
 	static int question_number;
 	
-	Sprite question_image;
+	Sprite question_image, question_frame;
 	ButtonSprite reset_button;
-	Sprite question_frame;
-	Text question;
+	Text question, poin_number;
 	ButtonSprite[] options_frame = new ButtonSprite[OPTIONS_COUNT];
 	Text[] options = new Text[OPTIONS_COUNT];
-	Text poin_number;
 	int category;
 	
 	@Override

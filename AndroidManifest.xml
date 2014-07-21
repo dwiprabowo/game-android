@@ -27,6 +27,8 @@
         <activity android:name=".activities.MainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.EndMainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.SettingActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.SkorActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.AboutActivity" android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

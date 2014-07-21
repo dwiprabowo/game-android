@@ -14,27 +14,19 @@ public class PilihKategoriBelajarActivity extends GameActivityModel {
 	
 	@Override
 	protected void init_resources() {
-		font = create_font("Forque.ttf", 20, Color.BLACK);
+		font = create_font(FONT_FORQUE_FILENAME, MENU_FONT_SIZE, Color.BLACK);
 	}
 
 	@Override
 	protected void init_scene() {
-		final Text title = create_text(getFontTitle(), "Pilih Kategori");
+		final Text title = create_text(getFontTitle(), PILIH_KATEGORI_TITLE);
 		attach(title, Alignment.TOP_CENTER, 0, 10);
 		set_menu(
-				"gfx/menu/pilih_kategori_frame.png",
-				new String[]{
-						"Ibu Kota", 
-						"Tari Tradisional", 
-						"Nama Pahlawan", 
-						"Lagu Daerah", 
-						"Nama Bandara", 
-						"Alat Musik", 
-						"Nama Kerajaan"
-				},
-				5,
+				MENU_KATEGORI_FRAME_PATH,
+				MENU_KATEGORI_ITEMS,
+				MENU_KATEGORI_SPACE,
 				font,
-				20
+				MENU_KATEGORI_OFFSET_Y
 			);
 	}
 	

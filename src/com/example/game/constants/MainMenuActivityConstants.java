@@ -10,8 +10,6 @@ public interface MainMenuActivityConstants {
 	static final int MENU_KELUAR = MENU_ABOUT + 1;
 	
 	static final String MUSIC_FILENAME = "FamiliarRoads.mid";
-	static final String GOOD_SOUND_FILENAME = "good.wav";
-	static final String BAD_SOUND_FILENAME = "bad.mp3";
 	
 	static final String MENU_MAIN_FRAME_PATH = "gfx/menu/menu_main_frame.png";
 	static final String[] MENU_MAIN_ITEMS = new String[]{"Main", "Belajar", "Skor Tertinggi", "Setting", "About", "Keluar"};

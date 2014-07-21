@@ -1,10 +1,14 @@
 package com.example.game;
 
 import com.example.game.constants.MainMenuActivityConstants;
+import com.example.game.constants.PilihKategoriBelajarActivityConstants;
 import com.example.game.constants.SettingActivityConstants;
 import com.example.game.constants.SplashActivityConstants;
 
-public interface Constants extends SplashActivityConstants, MainMenuActivityConstants, SettingActivityConstants{
+public interface Constants extends 	SplashActivityConstants, 
+									MainMenuActivityConstants, 
+									SettingActivityConstants, 
+									PilihKategoriBelajarActivityConstants{
 	
 	static final String PREFS_NAME = "game_data";
 	
@@ -27,8 +31,19 @@ public interface Constants extends SplashActivityConstants, MainMenuActivityCons
 	
 	final int FONT_TITLE_SIZE = 28;
 	final int FONT_SUBTITLE_SIZE = 24;
+	final int FONT_SMALL_SUBTITLE_SIZE = 20;
 	final int FONT_LABEL_SIZE = 18;
+	final int FONT_MONO_SIZE = 16;
+	final int FONT_QUESTION_SIZE = 16;
+	final int FONT_OPTION_SIZE = 12;
+	
 	final String FONT_FORQUE_FILENAME = "Forque.ttf";
+	final String FONT_ANONYMOUS_FILENAME = "Anonymous.ttf";
+	final String FONT_OPENSANS_FILENAME = "OpenSans-Regular.ttf";
+	final String FONT_ELIGIBLE_FILENAME = "Eligible-Regular.ttf";
 	
 	final String GLOBAL_BUTTON_FRAME_PATH = "gfx/global_button_frame.png";
+	
+	static final String GOOD_SOUND_FILENAME = "good.wav";
+	static final String BAD_SOUND_FILENAME = "bad.mp3";
 }

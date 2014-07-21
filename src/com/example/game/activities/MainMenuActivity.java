@@ -28,9 +28,9 @@ public class MainMenuActivity extends GameActivityModel{
 		switch(menuID){
 			case MENU_MAIN:start_and_finish(ChooseLevelActivity.class);break;
 			case MENU_BELAJAR:start_and_finish(PilihKategoriBelajarActivity.class);break;
-			case MENU_SKOR:Utils.log("skor...");break;
+			case MENU_SKOR:start_and_finish(SkorActivity.class);break;
 			case MENU_SETTING:start_and_finish(SettingActivity.class);break;
-			case MENU_ABOUT:Utils.log("about...");break;
+			case MENU_ABOUT:start_and_finish(AboutActivity.class);break;
 			case MENU_KELUAR:exit_dialog(KELUAR_DIALOG_MESSAGE, KELUAR_DIALOG_CONFIRM, KELUAR_DIALOG_CANCEL);break;
 		}
 		
