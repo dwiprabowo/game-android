@@ -25,11 +25,12 @@ import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 
 import com.example.game.Constants;
+import com.example.game.GameActivityModel;
 
 import android.content.Intent;
 import android.graphics.Color;
 
-public class EndMainActivity extends SimpleBaseGameActivity implements Constants{
+public class EndMainActivity extends GameActivityModel{
 	
 	final static int BUTTON_COUNT = 3;
 	private ITexture[] mButtonsFrameTexture = new ITexture[BUTTON_COUNT];
@@ -39,15 +40,9 @@ public class EndMainActivity extends SimpleBaseGameActivity implements Constants
 	private ITextureRegion mFrameLevelEndTextureRegion;
 	
 	private Font mFont;
-	
-	@Override
-	public EngineOptions onCreateEngineOptions() {
-		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
-	}
 
 	@Override
-	protected void onCreateResources() {
+	protected void init_resources() {
 		for(int i = 0;i < BUTTON_COUNT;i++){
 			try{
 				this.mButtonsFrameTexture[i] = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
@@ -81,14 +76,13 @@ public class EndMainActivity extends SimpleBaseGameActivity implements Constants
 	}
 
 	@Override
-	protected Scene onCreateScene() {
-		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
-		
+	protected
+	void init_scene() {
+		set_level_skor(Integer.parseInt(get_extra("poin")), Integer.parseInt(get_extra("level")));
 		final Sprite frame_level_end = new Sprite(0, 0, mFrameLevelEndTextureRegion, this.getVertexBufferObjectManager());
-		final Text level_end = new Text(0, 0, mFont, "Level 1 Selesai", this.getVertexBufferObjectManager());
-		final Text skor = new Text(0, 0, mFont, "Skor kamu: "+10+" poin", this.getVertexBufferObjectManager());
-		scene.attachChild(frame_level_end);
+		final Text level_end = new Text(0, 0, mFont, "Level "+(Integer.parseInt(get_extra("level"))+1)+" Selesai", this.getVertexBufferObjectManager());
+		final Text skor = new Text(0, 0, mFont, "Skor kamu: "+get_extra("poin")+" poin", this.getVertexBufferObjectManager());
+		getScene().attachChild(frame_level_end);
 		frame_level_end.setX(CAMERA_WIDTH/2 - frame_level_end.getWidth()/2);
 		frame_level_end.setY(20);
 		frame_level_end.attachChild(level_end);
@@ -115,25 +109,23 @@ public class EndMainActivity extends SimpleBaseGameActivity implements Constants
 			button_text[i] = new Text(0, 0, mFont, texts[i], this.getVertexBufferObjectManager());
 			button_frame[i].attachChild(button_text[i]);
 			button_text[i].setPosition(button_frame[i].getWidth()/2 - button_text[i].getWidth()/2, button_frame[i].getHeight()/2 - button_text[i].getHeight()/2);
-			scene.attachChild(button_frame[i]);
+			getScene().attachChild(button_frame[i]);
 			button_frame[i].setX(CAMERA_WIDTH/2 - button_frame[i].getWidth()/2);
 			button_frame[i].setY(startPosY);startPosY+=60;
-			scene.registerTouchArea(button_frame[i]);
+			getScene().registerTouchArea(button_frame[i]);
 		}
-		
-		return scene;
 	}
 	
 	void menu(int number){
 		switch (number) {
 		case 0:
-				startActivity(new Intent(this, MainActivity.class));
+				start_and_finish(MainActivity.class, "{'level':"+get_extra("level")+"}");
 			break;
 		case 1:
-				startActivity(new Intent(this, ChooseLevelActivity.class));
+				start_and_finish(ChooseLevelActivity.class);
 			break;
 		case 2:
-				startActivity(new Intent(this, MainMenuActivity.class));
+				start_and_finish(MainMenuActivity.class);
 			break;
 		default:
 			break;

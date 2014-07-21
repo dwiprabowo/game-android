@@ -58,7 +58,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public JSONObject get_game_data(){
 		SharedPreferences data = getSharedPreferences(PREFS_NAME, 0);
-		String json_string = data.getString(PREFS_NAME, "{ 'sound_on': true, 'poins': [0, 0, 0, 0, 0, 0, 0] }");
+		String json_string = data.getString(PREFS_NAME, "{ 'sound_on': true, 'poins': [0, 0, 0, 0, 0, 0, 0], 'level': [ 10, 10, 10], 'level_skor': [ 0, 0, 0] }");
 		JSONObject json = null;
 		try {
 			json = new JSONObject(json_string);
@@ -66,6 +66,19 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 			e.printStackTrace();
 		}
 		return json;
+	}
+	
+	public int get_level_count(){
+		int value = 0;
+		JSONObject json = get_game_data();
+		JSONArray json_array = null;
+		try {
+			json_array = json.getJSONArray("level");
+			value = json_array.length();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 	
 	public void save_game_data(JSONObject json){
@@ -76,6 +89,26 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		editor.commit();
 	}
 	
+	public int get_soal(int level){
+		int value = -1;
+		try {
+			value = (int) get_game_data().getJSONArray("level").get(level);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+	
+	public int get_skor(int level){
+		int value = -1;
+		try {
+			value = (int) get_game_data().getJSONArray("level_skor").get(level);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
+	
 	public int get_poin(int category){
 		int value = -1;
 		try {
@@ -84,6 +117,19 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 			e.printStackTrace();
 		}
 		return value;
+	}
+	
+	public void set_level_skor(int value, int level){
+		JSONObject json = get_game_data();
+		JSONArray json_array;
+		try {
+			json_array = json.getJSONArray("level_skor");
+			json_array.put(level, value);
+			json.putOpt("level_skor", json_array);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		save_game_data(json);
 	}
 	
 	public void set_poin(int value, int category){

@@ -29,6 +29,7 @@
         <activity android:name=".activities.SettingActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.SkorActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.AboutActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.QuestionActivity" android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

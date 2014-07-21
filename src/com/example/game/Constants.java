@@ -46,4 +46,6 @@ public interface Constants extends 	SplashActivityConstants,
 	
 	static final String GOOD_SOUND_FILENAME = "good.wav";
 	static final String BAD_SOUND_FILENAME = "bad.mp3";
+	
+	final int LEVEL_COUNT = 5;
 }
