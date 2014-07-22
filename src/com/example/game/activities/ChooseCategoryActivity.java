@@ -8,7 +8,7 @@ import android.graphics.Color;
 import com.example.game.Alignment;
 import com.example.game.GameActivityModel;
 
-public class PilihKategoriBelajarActivity extends GameActivityModel {
+public class ChooseCategoryActivity extends GameActivityModel {
 	
 	private Font font;
 	

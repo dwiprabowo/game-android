@@ -9,5 +9,6 @@ public enum Alignment {
 	LEFT_BOTTOM, 
 	RIGHT_BOTTOM,
 	MIDDLE_LEFT,
-	MIDDLE_RIGHT
+	MIDDLE_RIGHT,
+	NONE
 }

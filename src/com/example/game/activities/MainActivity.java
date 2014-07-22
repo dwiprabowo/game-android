@@ -11,6 +11,7 @@ import com.example.game.Alignment;
 import com.example.game.GameData;
 import com.example.game.Question;
 import com.example.game.Utils;
+import com.example.game.activities.wrapper.QuestionActivity;
 
 public class MainActivity extends QuestionActivity{
 	
@@ -37,7 +38,7 @@ public class MainActivity extends QuestionActivity{
 	}
 
 	@Override
-	void update_question(int number, int category) {
+	public void update_question(int number, int category) {
 		soal_no.setText(number+1+"");
 		soal_no.setPosition( -(soal_no.getWidth()+2), 0);
 		Question question = questions.get(number);
@@ -80,7 +81,7 @@ public class MainActivity extends QuestionActivity{
 	}
 	
 	@Override
-	String set_title() { return "Main"; }
+	protected String set_title() { return "Main"; }
 	
 	ArrayList<Question> find_random_questions(){
 		ArrayList<Question> value = new ArrayList<Question>();

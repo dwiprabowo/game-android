@@ -22,14 +22,14 @@
         </activity>
         <activity android:name=".activities.MainMenuActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.ChooseLevelActivity" android:configChanges="orientation"></activity>
-        <activity android:name=".activities.PilihKategoriBelajarActivity" android:configChanges="orientation"></activity>
+        <activity android:name=".activities.ChooseCategoryActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.BelajarActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.MainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.EndMainActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.SettingActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.SkorActivity" android:configChanges="orientation"></activity>
         <activity android:name=".activities.AboutActivity" android:configChanges="orientation"></activity>
-        <activity android:name=".activities.QuestionActivity" android:configChanges="orientation"></activity>
+        <activity android:name="com.example.game.activities.wrapper.QuestionActivity" android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

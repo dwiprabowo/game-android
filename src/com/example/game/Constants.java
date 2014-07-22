@@ -1,5 +1,15 @@
 package com.example.game;
 
+import com.example.game.activities.AboutActivity;
+import com.example.game.activities.BelajarActivity;
+import com.example.game.activities.ChooseLevelActivity;
+import com.example.game.activities.EndMainActivity;
+import com.example.game.activities.MainActivity;
+import com.example.game.activities.MainMenuActivity;
+import com.example.game.activities.ChooseCategoryActivity;
+import com.example.game.activities.SettingActivity;
+import com.example.game.activities.SkorActivity;
+import com.example.game.activities.SplashActivity;
 import com.example.game.constants.MainMenuActivityConstants;
 import com.example.game.constants.PilihKategoriBelajarActivityConstants;
 import com.example.game.constants.SettingActivityConstants;
@@ -9,6 +19,17 @@ public interface Constants extends 	SplashActivityConstants,
 									MainMenuActivityConstants, 
 									SettingActivityConstants, 
 									PilihKategoriBelajarActivityConstants{
+	
+	Class<SplashActivity> 			SPLASH_ACTIVITY_CLASS 			= SplashActivity.class;
+	Class<MainMenuActivity> 		MAIN_MENU_ACTIVITY_CLASS 		= MainMenuActivity.class;
+	Class<ChooseLevelActivity> 		CHOOSE_LEVEL_ACTIVITY_CLASS 	= ChooseLevelActivity.class;
+	Class<ChooseCategoryActivity> 	CHOOSE_CATEGORY_ACTIVITY_CLASS 	= ChooseCategoryActivity.class;
+	Class<SkorActivity> 			SKOR_ACTIVITY_CLASS 			= SkorActivity.class;
+	Class<SettingActivity> 			SETTING_ACTIVITY_CLASS 			= SettingActivity.class;
+	Class<AboutActivity> 			ABOUT_ACTIVITY_CLASS 			= AboutActivity.class;
+	Class<MainActivity> 			MAIN_ACTIVITY_CLASS 			= MainActivity.class;
+	Class<BelajarActivity> 			BELAJAR_ACTIVITY_CLASS 			= BelajarActivity.class;
+	Class<EndMainActivity> 			END_MAIN_ACTIVITY_CLASS 		= EndMainActivity.class;
 	
 	static final String PREFS_NAME = "game_data";
 	

@@ -2,8 +2,6 @@ package com.example.game;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-
 import org.andengine.audio.music.Music;
 import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
@@ -295,6 +293,11 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 	
 	public VertexBufferObjectManager getVBOM(){
 		return getVertexBufferObjectManager();
+	}
+	
+	public void attach(RectangularShape child, Position pos){
+		attach(child, pos.getAlignment());
+		set_position(child, pos.getX(), pos.getY());
 	}
 	
 	public void attach(RectangularShape child, Alignment align, float x, float y){

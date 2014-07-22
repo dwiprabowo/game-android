@@ -71,6 +71,8 @@ public class ChooseLevelActivity extends GameActivityModel{
 		} else {
 			if(get_skor(level - 1) < 55){
 				level_locked.setVisible(true);
+			} else {
+				level_locked.setVisible(false);
 			}
 		}
 		text_level.setText("Level "+(level+1));

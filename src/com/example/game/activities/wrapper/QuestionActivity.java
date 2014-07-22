@@ -1,4 +1,4 @@
-package com.example.game.activities;
+package com.example.game.activities.wrapper;
 
 import java.util.ArrayList;
 
@@ -13,13 +13,22 @@ import com.example.game.Alignment;
 import com.example.game.GameActivityModel;
 import com.example.game.GameData;
 import com.example.game.Question;
+import com.example.game.activities.MainMenuActivity;
 
 public abstract class QuestionActivity extends GameActivityModel{
 
-	ArrayList<Question> questions = new ArrayList<Question>();
+	protected ArrayList<Question> questions = new ArrayList<Question>();
 	
-	Font subTitle, monoFont, questionFont, optionFont;
-	Sound goodSound, badSound;
+	protected Font subTitle;
+
+	protected Font monoFont;
+
+	Font questionFont;
+
+	Font optionFont;
+	protected Sound goodSound;
+
+	protected Sound badSound;
 	
 	@Override
 	protected void init_resources(){
@@ -34,12 +43,14 @@ public abstract class QuestionActivity extends GameActivityModel{
 		badSound = load_sound(BAD_SOUND_FILENAME);
 	}
 	
-	static int question_number;
+	protected static int question_number;
 	
-	Sprite question_image, question_frame;
-	Text question;
-	ButtonSprite[] options_frame = new ButtonSprite[OPTIONS_COUNT];
-	Text[] options = new Text[OPTIONS_COUNT];
+	protected Sprite question_image;
+
+	protected Sprite question_frame;
+	protected Text question;
+	protected ButtonSprite[] options_frame = new ButtonSprite[OPTIONS_COUNT];
+	protected Text[] options = new Text[OPTIONS_COUNT];
 	
 	@Override
 	protected void init_scene() {
@@ -48,9 +59,9 @@ public abstract class QuestionActivity extends GameActivityModel{
 		build_question_part();
 	}
 	
-	abstract void update_question(int number, int category);
+	public abstract void update_question(int number, int category);
 	
-	String set_title(){
+	protected String set_title(){
 		return "Belajar";
 	}
 	
@@ -85,7 +96,7 @@ public abstract class QuestionActivity extends GameActivityModel{
 		start_and_finish(MainMenuActivity.class);
 	}
 	
-	ArrayList<Question> find_questions(int category, Question[] questions){
+	protected ArrayList<Question> find_questions(int category, Question[] questions){
 		ArrayList<Question> value = new ArrayList<Question>();
 		for(int i = 0;i < questions.length;i++){
 			if(questions[i].getKategori() == category)

@@ -1,21 +1,12 @@
 package com.example.game.activities;
 
-import java.util.ArrayList;
-
-import org.andengine.audio.sound.Sound;
 import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
-import org.andengine.opengl.font.Font;
-import org.andengine.util.HorizontalAlign;
-
-import android.graphics.Color;
-
 import com.example.game.Alignment;
-import com.example.game.GameActivityModel;
 import com.example.game.GameData;
 import com.example.game.Question;
 import com.example.game.Utils;
+import com.example.game.activities.wrapper.QuestionActivity;
 
 public class BelajarActivity extends QuestionActivity{
 	
@@ -41,7 +32,7 @@ public class BelajarActivity extends QuestionActivity{
 	}
 	
 	@Override
-	void update_question(int number, int category){
+	public void update_question(int number, int category){
 		Question question = questions.get(number);
 		if(question.getPath() != null){
 			if(question_image != null)
