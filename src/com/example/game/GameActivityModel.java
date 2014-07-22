@@ -300,21 +300,26 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		set_position(child, pos.getX(), pos.getY());
 	}
 	
+	public void attach(Button button, Alignment align, float x, float y){
+		attach(button.getFrame(), align);
+		set_position(button.getFrame(), x, y);
+	}
+	
 	public void attach(RectangularShape child, Alignment align, float x, float y){
 		attach(child, align);
 		set_position(child, x, y);
 	}
 	
 	public void attach(RectangularShape child, RectangularShape parent, Alignment align, float x, float y){
-		attach(child, align, parent);
+		attach(child, parent, align);
 		set_position(child, x, y);
 	}
 	
 	public void attach(RectangularShape child, Alignment align){
-		attach(child, align, null);
+		attach(child, null, align);
 	}
 	
-	public void attach(RectangularShape child, Alignment align, RectangularShape parent){
+	public void attach(RectangularShape child, RectangularShape parent, Alignment align){
 		if(parent==null){
 			scene.attachChild(child);
 			align(child, align);
@@ -399,7 +404,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 			items[i].setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			menuScene.addMenuItem(items[i]);
 			final Text menu_text = new Text(0, 0, font, ids[i], getVBOM());
-			attach(menu_text, Alignment.CENTER, items[i]);
+			attach(menu_text, items[i], Alignment.CENTER);
 		}
 		menuScene.setMenuAnimator(new AlphaMenuAnimator(spacing));
 		menuScene.buildAnimations();
@@ -409,7 +414,7 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return menuScene;
 	}
 	
-	public void set_menu(String path, String[] ids){
+	public void set_menu(String[] ids, String path){
 		set_menu(path, ids, 10, font_title, 0);
 	}
 	

@@ -64,9 +64,18 @@ public interface Constants extends 	SplashActivityConstants,
 	final String FONT_ELIGIBLE_FILENAME = "Eligible-Regular.ttf";
 	
 	final String GLOBAL_BUTTON_FRAME_PATH = "gfx/global_button_frame.png";
-	
+
+	static final String MUSIC_FILENAME = "FamiliarRoads.mid";
 	static final String GOOD_SOUND_FILENAME = "good.wav";
 	static final String BAD_SOUND_FILENAME = "bad.mp3";
 	
 	final int LEVEL_COUNT = 5;
+	
+	final String BIG_BUTTON_FRAME_PATH = "gfx/button_frames/big_button_frame.png";
+	final String MIDDLE_BUTTON_FRAME_PATH = "gfx/button_frames/middle_button_frame.png";
+	final String SMALL_BUTTON_FRAME_PATH = "gfx/button_frames/small_button_frame.png";
+	final String OPTION_OFF_BUTTON_FRAME_PATH = "gfx/button_frames/option_off.png";
+	final String OPTION_ON_BUTTON_FRAME_PATH = "gfx/button_frames/option_on.png";
+	
+	final float DEFAULT_TITLE_GAP = 2;
 }

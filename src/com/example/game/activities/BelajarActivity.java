@@ -68,7 +68,7 @@ public class BelajarActivity extends QuestionActivity{
 		
 		float subtitle_gap_y = 28;
 		attach(reset_button, Alignment.RIGHT_TOP, -10, subtitle_gap_y);
-		attach(reset, Alignment.CENTER, reset_button);
+		attach(reset, reset_button, Alignment.CENTER);
 		attach(benar, Alignment.LEFT_TOP, 10, subtitle_gap_y+reset.getY());
 		attach(poin, Alignment.TOP_CENTER, 10, subtitle_gap_y+reset.getY());
 		attach(poin_number, poin, Alignment.MIDDLE_RIGHT, 0, 2);

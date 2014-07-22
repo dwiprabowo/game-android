@@ -46,7 +46,7 @@ public class ChooseLevelActivity extends GameActivityModel{
 		button_level = create_button_sprite("gfx/menu/level.png");
 		
 		attach(button_level, Alignment.CENTER);
-		attach(text_level, Alignment.TOP_CENTER, button_level);
+		attach(text_level, button_level, Alignment.TOP_CENTER);
 		attach(text_skor, button_level, Alignment.MIDDLE_LEFT, 30, -13);
 		attach(text_soal, button_level, Alignment.MIDDLE_LEFT, 30, 7);
 		attach(text_skor_number, button_level, Alignment.MIDDLE_RIGHT, -30, -13);
@@ -60,7 +60,7 @@ public class ChooseLevelActivity extends GameActivityModel{
 		attach(previous, Alignment.CENTER, -40, 80);
 		
 		level_locked = create_sprite("gfx/menu/level_locked.png");
-		attach(level_locked, Alignment.CENTER, button_level);
+		attach(level_locked, button_level, Alignment.CENTER);
 		
 		update_level(index_level);
 	}

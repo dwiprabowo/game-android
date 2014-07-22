@@ -27,7 +27,7 @@ public class MainActivity extends QuestionActivity{
 		soal_no = create_text(subTitle, 4);
 		attach(level_x, Alignment.LEFT_TOP, 10, 30);
 		attach(soal, Alignment.RIGHT_TOP, -10, 30);
-		attach(soal_no, Alignment.MIDDLE_LEFT, soal);
+		attach(soal_no, soal, Alignment.MIDDLE_LEFT);
 		poin = 0;
 		update_question(question_number, 0);
 	}

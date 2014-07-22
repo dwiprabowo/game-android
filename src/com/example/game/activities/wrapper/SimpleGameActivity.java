@@ -8,9 +8,7 @@ public abstract class SimpleGameActivity extends GameActivityModel{
 	protected void init_resources() {}
 	
 	@Override
-	protected void init_scene() {
-		activity_logic();
-	}
+	protected void init_scene() { activity_logic(); }
 	
 	protected abstract void activity_logic();
 }

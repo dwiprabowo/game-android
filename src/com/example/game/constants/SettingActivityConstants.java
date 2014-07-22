@@ -11,4 +11,8 @@ public interface SettingActivityConstants {
 	
 	final String OPTION_ON_PATH = "gfx/option_on.png";
 	final String OPTION_OFF_PATH = "gfx/option_off.png";
+	
+	final int MIDDLE_BUTTON_COUNT = 2;
+	final int BUTTON_RESET = 0;
+	final int BUTTON_BACK = 1;
 }

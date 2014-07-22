@@ -36,7 +36,7 @@ public class SkorActivity extends GameActivityModel{
 		attach(skor, Alignment.RIGHT_TOP, 0, 50);
 		attach(number, Alignment.LEFT_TOP, 0, 70);
 		attach(total_skor, Alignment.RIGHT_TOP, 0, 70);
-		attach(kembali, Alignment.CENTER, back);
+		attach(kembali, back, Alignment.CENTER);
 		attach(back, Alignment.RIGHT_BOTTOM);
 	}
 	

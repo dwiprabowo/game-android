@@ -40,10 +40,10 @@ public class AboutActivity extends GameActivityModel{
 		
 		attach(title, Alignment.TOP_CENTER);
 		attach(center_frame, Alignment.CENTER);
-		attach(previous, Alignment.LEFT_BOTTOM, center_frame);
-		attach(next, Alignment.RIGHT_BOTTOM, center_frame);
+		attach(previous, center_frame, Alignment.LEFT_BOTTOM);
+		attach(next, center_frame, Alignment.RIGHT_BOTTOM);
 		attach(back, Alignment.RIGHT_BOTTOM);
-		attach(kembali, Alignment.CENTER, back);
+		attach(kembali, back, Alignment.CENTER);
 		attach(content, Alignment.CENTER);
 		
 		index = 0;

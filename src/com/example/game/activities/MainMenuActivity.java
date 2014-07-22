@@ -6,7 +6,7 @@ public class MainMenuActivity extends ActivityUsingMusic{
 	
 	@Override
 	protected void activity_logic(){
-		set_menu(MENU_MAIN_FRAME_PATH, MENU_MAIN_ITEMS);
+		set_menu(MENU_MAIN_ITEMS, BIG_BUTTON_FRAME_PATH);
 		play_music();
 	}
 	

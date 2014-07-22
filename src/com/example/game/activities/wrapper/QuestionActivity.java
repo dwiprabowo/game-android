@@ -74,13 +74,13 @@ public abstract class QuestionActivity extends GameActivityModel{
 		question_frame = create_sprite("gfx/question_frame.png");
 		question = create_text(questionFont, 200, HorizontalAlign.CENTER);
 		attach(question_frame, Alignment.CENTER, 0, -25);
-		attach(question, Alignment.CENTER, question_frame);
+		attach(question, question_frame, Alignment.CENTER);
 		
 		for(int i = 0;i < OPTIONS_COUNT;i++){
 			options_frame[i] = create_button_sprite("gfx/option_frame.png");
 			options[i] = create_text(optionFont, 40, HorizontalAlign.CENTER);
 			attach(options_frame[i], Alignment.BOTTOM_CENTER);
-			attach(options[i], Alignment.CENTER, options_frame[i]);
+			attach(options[i], options_frame[i], Alignment.CENTER);
 		}
 		int gap_x = 55;
 		int gap_y1 = 55;
