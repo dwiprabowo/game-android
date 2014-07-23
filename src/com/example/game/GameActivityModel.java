@@ -497,6 +497,10 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return new Text(0, 0, font, text, getVBOM());
 	}
 	
+	public Text create_text(String text){
+		return create_text(getFontTitle(), text);
+	}
+	
 	public void change_activity_in(float miliseconds, final Class<?> cls){
 		scene.registerUpdateHandler(new TimerHandler(miliseconds, new ITimerCallback(){
 			@Override
