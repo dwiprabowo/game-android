@@ -22,8 +22,8 @@ public class ChooseLevelActivity extends GameActivityModel{
 	@Override
 	public void init_resources(){
 		level = new Level[get_level_count()];
-		smallerTitleFont = create_font("Forque.ttf", 20, Color.WHITE);
-		monoFont = create_font("Anonymous.ttf", 16, Color.WHITE);
+		smallerTitleFont = create_font(FONT_FORQUE_FILENAME, FONT_SMALL_SUBTITLE_SIZE, Color.WHITE);
+		monoFont = create_font(FONT_ANONYMOUS_FILENAME, FONT_MONO_SIZE, Color.WHITE);
 	}
 	
 	Text text_level, text_skor_number, text_soal_number;
@@ -33,17 +33,17 @@ public class ChooseLevelActivity extends GameActivityModel{
 	@Override
 	public void init_scene(){
 		index_level = 0;
-		final Text title = new Text(0, 0, getFontTitle(), "Pilih Level", getVBOM());
-		attach(title, Alignment.TOP_CENTER);set_position(title, 0, 20);
+		final Text title = create_text(getFontTitle(), PILIH_LEVEL_TEXT);
+		attach(title, Alignment.TOP_CENTER, 0, 20);
 		
 		text_level 		= create_text(smallerTitleFont, 7);
-		final Text text_skor 		= create_text(monoFont, "Skor =");
-		final Text text_soal  		= create_text(monoFont, "Soal =");
+		final Text text_skor 		= create_text(monoFont, SKOR_LABEL);
+		final Text text_soal  		= create_text(monoFont, SOAL_LABEL);
 		text_skor_number = create_text(monoFont, 4);
 		text_soal_number = create_text(monoFont, 4);
-		final Text mulai 			= create_text(smallerTitleFont, "Mulai");
+		final Text mulai 			= create_text(smallerTitleFont, MULAI_TEXT);
 		
-		button_level = create_button_sprite("gfx/menu/level.png");
+		button_level = create_button_sprite(LEVEL_FRAME_PATH);
 		
 		attach(button_level, Alignment.CENTER);
 		attach(text_level, button_level, Alignment.TOP_CENTER);
@@ -53,13 +53,13 @@ public class ChooseLevelActivity extends GameActivityModel{
 		attach(text_soal_number, button_level, Alignment.MIDDLE_RIGHT, -30, 7);
 		attach(mulai, button_level, Alignment.BOTTOM_CENTER, 0, -6);
 		
-		next = create_button_sprite("gfx/next.png");
-		previous = create_button_sprite("gfx/previous.png");
+		next = create_button_sprite(NEXT_BUTTON_PATH);
+		previous = create_button_sprite(PREVIOUS_BUTTON_PATH);
 		
 		attach(next, Alignment.CENTER, 40, 80);
 		attach(previous, Alignment.CENTER, -40, 80);
 		
-		level_locked = create_sprite("gfx/menu/level_locked.png");
+		level_locked = create_sprite(LEVEL_LOCKED_FRAME_PATH);
 		attach(level_locked, button_level, Alignment.CENTER);
 		
 		update_level(index_level);

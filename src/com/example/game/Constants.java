@@ -10,6 +10,8 @@ import com.example.game.activities.ChooseCategoryActivity;
 import com.example.game.activities.SettingActivity;
 import com.example.game.activities.SkorActivity;
 import com.example.game.activities.SplashActivity;
+import com.example.game.constants.AboutActivityConstants;
+import com.example.game.constants.ChooseLevelActivityConstants;
 import com.example.game.constants.MainMenuActivityConstants;
 import com.example.game.constants.PilihKategoriBelajarActivityConstants;
 import com.example.game.constants.SettingActivityConstants;
@@ -18,7 +20,9 @@ import com.example.game.constants.SplashActivityConstants;
 public interface Constants extends 	SplashActivityConstants, 
 									MainMenuActivityConstants, 
 									SettingActivityConstants, 
-									PilihKategoriBelajarActivityConstants{
+									PilihKategoriBelajarActivityConstants,
+									AboutActivityConstants,
+									ChooseLevelActivityConstants{
 	
 	Class<SplashActivity> 			SPLASH_ACTIVITY_CLASS 			= SplashActivity.class;
 	Class<MainMenuActivity> 		MAIN_MENU_ACTIVITY_CLASS 		= MainMenuActivity.class;
@@ -74,8 +78,18 @@ public interface Constants extends 	SplashActivityConstants,
 	final String BIG_BUTTON_FRAME_PATH = "gfx/button_frames/big_button_frame.png";
 	final String MIDDLE_BUTTON_FRAME_PATH = "gfx/button_frames/middle_button_frame.png";
 	final String SMALL_BUTTON_FRAME_PATH = "gfx/button_frames/small_button_frame.png";
+	final String SMALLER_BUTTON_FRAME_PATH = "gfx/button_frames/smaller_button_frame.png";
 	final String OPTION_OFF_BUTTON_FRAME_PATH = "gfx/button_frames/option_off.png";
 	final String OPTION_ON_BUTTON_FRAME_PATH = "gfx/button_frames/option_on.png";
+	final String NEXT_BUTTON_PATH = "gfx/next.png";
+	final String PREVIOUS_BUTTON_PATH = "gfx/previous.png";
+	
+	final String LEVEL_FRAME_PATH = "gfx/level.png";
+	final String LEVEL_LOCKED_FRAME_PATH = "gfx/level_locked.png";
+	
+	final String LEVEL_END_FRAME_PATH = "gfx/level_end_frame.png";
+	
+	final String QUESTION_FRAME_PATH = "gfx/question_frame.png";
 	
 	final float DEFAULT_TITLE_GAP = 2;
 }

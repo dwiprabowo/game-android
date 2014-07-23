@@ -64,7 +64,7 @@ public class BelajarActivity extends QuestionActivity{
 		poin_number = create_text(monoFont, 5);
 		final Text poin = create_text(subTitle, "poin");
 		final Text reset = create_text(subTitle, "reset");
-		reset_button = create_button_sprite("gfx/small_button_frame.png");
+		reset_button = create_button_sprite(SMALLER_BUTTON_FRAME_PATH);
 		
 		float subtitle_gap_y = 28;
 		attach(reset_button, Alignment.RIGHT_TOP, -10, subtitle_gap_y);

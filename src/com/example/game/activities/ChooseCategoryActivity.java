@@ -22,7 +22,7 @@ public class ChooseCategoryActivity extends GameActivityModel {
 		final Text title = create_text(getFontTitle(), PILIH_KATEGORI_TITLE);
 		attach(title, Alignment.TOP_CENTER, 0, 10);
 		set_menu(
-				MENU_KATEGORI_FRAME_PATH,
+				MIDDLE_BUTTON_FRAME_PATH,
 				MENU_KATEGORI_ITEMS,
 				MENU_KATEGORI_SPACE,
 				font,

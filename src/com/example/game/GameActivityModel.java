@@ -295,6 +295,11 @@ public abstract class GameActivityModel extends SimpleBaseGameActivity implement
 		return getVertexBufferObjectManager();
 	}
 	
+	public void attach(Button child, Position pos){
+		attach(child.getFrame(), pos.getAlignment());
+		set_position(child.getFrame(), pos.getX(), pos.getY());
+	}
+	
 	public void attach(RectangularShape child, Position pos){
 		attach(child, pos.getAlignment());
 		set_position(child, pos.getX(), pos.getY());

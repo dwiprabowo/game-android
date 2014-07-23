@@ -1,136 +1,52 @@
 package com.example.game.activities;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.andengine.engine.camera.Camera;
-import org.andengine.engine.options.EngineOptions;
-import org.andengine.engine.options.ScreenOrientation;
-import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.Font;
-import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegionFactory;
-import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.adt.io.in.IInputStreamOpener;
-import org.andengine.util.debug.Debug;
-
-import com.example.game.Constants;
+import com.example.game.Alignment;
+import com.example.game.Button;
 import com.example.game.GameActivityModel;
-
-import android.content.Intent;
 import android.graphics.Color;
 
 public class EndMainActivity extends GameActivityModel{
 	
 	final static int BUTTON_COUNT = 3;
-	private ITexture[] mButtonsFrameTexture = new ITexture[BUTTON_COUNT];
-	private ITextureRegion[] mButtonsFrameTextureRegion = new ITextureRegion[BUTTON_COUNT];
+	private Button[] buttons = new Button[BUTTON_COUNT];
+	private Sprite frame;
 	
-	private ITexture mFrameLevelEndTexture;
-	private ITextureRegion mFrameLevelEndTextureRegion;
-	
-	private Font mFont;
+	private Font fontInfo;
 
 	@Override
 	protected void init_resources() {
-		for(int i = 0;i < BUTTON_COUNT;i++){
-			try{
-				this.mButtonsFrameTexture[i] = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-					@Override
-					public InputStream open() throws IOException {
-						return getAssets().open("gfx/global_button_frame.png");
-					}
-				});
-				this.mButtonsFrameTexture[i].load();
-				this.mButtonsFrameTextureRegion[i] = TextureRegionFactory.extractFromTexture(this.mButtonsFrameTexture[i]);
-			} catch (IOException e){
-				Debug.e(e);
-			}
-		}
-		try{
-			this.mFrameLevelEndTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
-				@Override
-				public InputStream open() throws IOException {
-					return getAssets().open("gfx/level_end_frame.png");
-				}
-			});
-			this.mFrameLevelEndTexture.load();
-			this.mFrameLevelEndTextureRegion = TextureRegionFactory.extractFromTexture(this.mFrameLevelEndTexture);
-		} catch (IOException e){
-			Debug.e(e);
-		}
-		FontFactory.setAssetBasePath("font/");
-		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		this.mFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "OpenSans-Regular.ttf", 16, true, Color.BLACK);
-		this.mFont.load();
+		frame = create_sprite(LEVEL_END_FRAME_PATH);
+		fontInfo = create_font(FONT_FORQUE_FILENAME, FONT_SMALL_SUBTITLE_SIZE, Color.BLACK);
 	}
 
 	@Override
 	protected
 	void init_scene() {
 		set_level_skor(Integer.parseInt(get_extra("poin")), Integer.parseInt(get_extra("level")));
-		final Sprite frame_level_end = new Sprite(0, 0, mFrameLevelEndTextureRegion, this.getVertexBufferObjectManager());
-		final Text level_end = new Text(0, 0, mFont, "Level "+(Integer.parseInt(get_extra("level"))+1)+" Selesai", this.getVertexBufferObjectManager());
-		final Text skor = new Text(0, 0, mFont, "Skor kamu: "+get_extra("poin")+" poin", this.getVertexBufferObjectManager());
-		getScene().attachChild(frame_level_end);
-		frame_level_end.setX(CAMERA_WIDTH/2 - frame_level_end.getWidth()/2);
-		frame_level_end.setY(20);
-		frame_level_end.attachChild(level_end);
-		frame_level_end.attachChild(skor);
-		level_end.setX(frame_level_end.getWidth()/2 - level_end.getWidth()/2);level_end.setY(20);
-		skor.setX(frame_level_end.getWidth()/2 - skor.getWidth()/2);skor.setY(60);
-		
-		final Sprite[] button_frame = new Sprite[BUTTON_COUNT];
-		final Text[] button_text = new Text[BUTTON_COUNT];
+		final Text level_end = create_text(fontInfo, "Level "+(Integer.parseInt(get_extra("level"))+1)+" Selesai");
+		final Text skor = create_text(fontInfo, "Skor kamu: "+get_extra("poin")+" poin");
+		attach(frame, Alignment.TOP_CENTER, 0, 20);
+		attach(level_end, frame, Alignment.CENTER, 0, -20);
+		attach(skor, frame, Alignment.CENTER, 0, 20);
+
 		final String[] texts = new String[]{"Ulang Permainan", "Level Lain", "Menu Utama"};
-		int startPosY = 130;
+		float posY = 20;
 		for(int i = 0;i < BUTTON_COUNT;i++){
-			final int number = i;
-			button_frame[i] = new Sprite(0, 0, mButtonsFrameTextureRegion[i], this.getVertexBufferObjectManager()){
-				@Override
-				public boolean onAreaTouched(TouchEvent pSceneTouchEvent,
-						float pTouchAreaLocalX, float pTouchAreaLocalY) {
-					if(pSceneTouchEvent.isActionUp())
-						menu(number);
-					return super
-							.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
-				}
-			};
-			button_text[i] = new Text(0, 0, mFont, texts[i], this.getVertexBufferObjectManager());
-			button_frame[i].attachChild(button_text[i]);
-			button_text[i].setPosition(button_frame[i].getWidth()/2 - button_text[i].getWidth()/2, button_frame[i].getHeight()/2 - button_text[i].getHeight()/2);
-			getScene().attachChild(button_frame[i]);
-			button_frame[i].setX(CAMERA_WIDTH/2 - button_frame[i].getWidth()/2);
-			button_frame[i].setY(startPosY);startPosY+=60;
-			getScene().registerTouchArea(button_frame[i]);
+			buttons[i] = new Button(create_button_sprite(MIDDLE_BUTTON_FRAME_PATH), create_text(fontInfo, texts[i]), this);
+			attach(buttons[i], Alignment.CENTER, 0, posY);
+			posY += 40;
 		}
 	}
 	
-	void menu(int number){
-		switch (number) {
-		case 0:
-				start_and_finish(MainActivity.class, "{'level':"+get_extra("level")+"}");
-			break;
-		case 1:
-				start_and_finish(ChooseLevelActivity.class);
-			break;
-		case 2:
-				start_and_finish(MainMenuActivity.class);
-			break;
-		default:
-			break;
-		}
-		finish();
+	@Override
+	public void button_sprite_clicked(ButtonSprite buttonSprite) {
+		if(buttonSprite == buttons[0].getFrame())start_and_finish(MainActivity.class, "{'level':"+get_extra("level")+"}");
+		if(buttonSprite == buttons[1].getFrame())start_and_finish(ChooseLevelActivity.class);
+		if(buttonSprite == buttons[2].getFrame())start_and_finish(MainMenuActivity.class);
 	}
 
 }

@@ -71,13 +71,13 @@ public abstract class QuestionActivity extends GameActivityModel{
 	}
 	
 	public void build_question_part(){
-		question_frame = create_sprite("gfx/question_frame.png");
+		question_frame = create_sprite(QUESTION_FRAME_PATH);
 		question = create_text(questionFont, 200, HorizontalAlign.CENTER);
 		attach(question_frame, Alignment.CENTER, 0, -25);
 		attach(question, question_frame, Alignment.CENTER);
 		
 		for(int i = 0;i < OPTIONS_COUNT;i++){
-			options_frame[i] = create_button_sprite("gfx/option_frame.png");
+			options_frame[i] = create_button_sprite(SMALL_BUTTON_FRAME_PATH);
 			options[i] = create_text(optionFont, 40, HorizontalAlign.CENTER);
 			attach(options_frame[i], Alignment.BOTTOM_CENTER);
 			attach(options[i], options_frame[i], Alignment.CENTER);
